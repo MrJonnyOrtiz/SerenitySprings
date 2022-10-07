@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Nav from './Nav';
 import AppBar from './AppBar';
 import Login from './Login';
 import Welcome from './Welcome';
@@ -150,13 +149,18 @@ function Main() {
 
    return (
       <div>
-         <AppBar currentUser={currentUser} />
-         <Nav
+         <AppBar
+            currentUser={currentUser}
+            handleCurrentUser={handleCurrentUser}
+            cart={cart}
+            handleCart={handleCart}
+         />
+         {/* <Nav
             handleCurrentUser={handleCurrentUser}
             currentUser={currentUser}
             cart={cart}
             handleCart={handleCart}
-         />
+         /> */}
          <Switch>
             <Route path="/durations/new">
                <NewDurationForm addDuration={addDuration} />

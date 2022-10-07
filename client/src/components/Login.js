@@ -44,6 +44,7 @@ function Login({ handleCurrentUser }) {
 
    return (
       <div>
+         <h2>Welcome to Serenity Springs!</h2>
          <h2>Login below if you have an account, or register as a new user.</h2>
          {toggle ? (
             <div>

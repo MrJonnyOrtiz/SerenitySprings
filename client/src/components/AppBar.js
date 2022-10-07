@@ -8,19 +8,21 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/serenitySpringsLogoNoName.png';
-import { Link } from 'react-router-dom';
+import Link from '@mui/material/Link';
 
-const userPages = ['Services', 'Faves', 'Book Now!', 'Cart', 'About Us'];
-const adminPages = ['Services', 'Durations', 'Service Types'];
+const userPages = ['services', 'faves', 'bookings', 'cart', 'aboutus'];
+const adminPages = ['services', 'durations', 'service_types'];
+const settings = ['logout'];
 
-const settings = ['Logout'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-const ResponsiveAppBar = ({ currentUser }) => {
+const ResponsiveAppBar = ({
+   currentUser,
+   handleCurrentUser,
+   cart,
+   handleCart,
+}) => {
    const [anchorElNav, setAnchorElNav] = useState(null);
    const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -39,34 +41,27 @@ const ResponsiveAppBar = ({ currentUser }) => {
       setAnchorElUser(null);
    };
 
-   const adminPagesEl = adminPages.map((page) => (
-      <MenuItem key={page} onClick={handleCloseNavMenu}>
-         <Typography textAlign="center">{page}</Typography>
-      </MenuItem>
-   ));
-
-   const userPagesEl = userPages.map((page) => (
-      <MenuItem key={page} onClick={handleCloseNavMenu}>
-         <Typography textAlign="center">{page}</Typography>
-      </MenuItem>
-   ));
+   const logout = () => {
+      fetch('/logout', {
+         method: 'DELETE',
+      }).then(() => {
+         handleCurrentUser(null);
+         handleCart([]);
+      });
+   };
 
    return (
-      <AppBar
-         position="sticky"
-         style={{
-            backgroundColor: 'var(--color-brand--1)',
-         }}
-      >
-         <Container maxWidth="xl">
+      <AppBar position="sticky">
+         <Container
+            maxWidth="xl"
+            sx={{ backgroundColor: 'var(--color-brand--1)' }}
+         >
             <Toolbar disableGutters>
+               {/* regular logo and name */}
                <Box
                   sx={{
                      mr: 2,
                      display: { xs: 'none', md: 'flex' },
-                     fontFamily: 'monospace',
-                     fontWeight: 700,
-                     letterSpacing: '.3rem',
                      color: 'inherit',
                      textDecoration: 'none',
                   }}
@@ -74,7 +69,6 @@ const ResponsiveAppBar = ({ currentUser }) => {
                   <Box
                      sx={{
                         textAlign: 'center',
-                        backgroundColor: 'var(--color-brand--1)',
                      }}
                   >
                      <Box
@@ -83,7 +77,7 @@ const ResponsiveAppBar = ({ currentUser }) => {
                            verticalAlign: 'middle',
                         }}
                      >
-                        <Link className="nav-link" to="/">
+                        <Link href="/">
                            <img
                               src={logo}
                               alt="serenity springs salon and spa logo"
@@ -104,6 +98,7 @@ const ResponsiveAppBar = ({ currentUser }) => {
                   </Box>
                </Box>
 
+               {/* xs nav */}
                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                   <IconButton
                      size="large"
@@ -133,19 +128,108 @@ const ResponsiveAppBar = ({ currentUser }) => {
                         display: { xs: 'block', md: 'none' },
                      }}
                   >
-                     {currentUser.is_admin ? adminPagesEl : userPagesEl}
+                     {currentUser.is_admin
+                        ? adminPages.map((page) => (
+                             <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                <Link href={`/${page}`} color="inherit">
+                                   {page}
+                                </Link>
+                             </MenuItem>
+                          ))
+                        : userPages.map((page) => (
+                             <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                <Link href={`/${page}`} color="inherit">
+                                   {page}
+                                </Link>
+                             </MenuItem>
+                          ))}
                   </Menu>
                </Box>
 
-               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                  {currentUser.is_admin ? adminPagesEl : userPagesEl}
+               {/* xs logo and name  */}
+               <Box
+                  sx={{
+                     mr: 2,
+                     display: { xs: 'flex', md: 'none' },
+                     flexGrow: 1,
+                     color: 'inherit',
+                     textDecoration: 'none',
+                  }}
+               >
+                  <Box
+                     sx={{
+                        textAlign: 'center',
+                        backgroundColor: 'var(--color-brand--1)',
+                     }}
+                  >
+                     <Box
+                        sx={{
+                           display: 'inline-block',
+                           verticalAlign: 'middle',
+                        }}
+                     >
+                        <Link href="/">
+                           <img
+                              src={logo}
+                              alt="serenity springs salon and spa logo"
+                           />
+                        </Link>
+                     </Box>
+                     <Box
+                        sx={{
+                           display: 'inline-block',
+                           verticalAlign: 'middle',
+                           mr: 3,
+                        }}
+                     >
+                        <Typography component="h1" variant="h4">
+                           <strong>Serenity Springs</strong>
+                        </Typography>
+                     </Box>
+                  </Box>
                </Box>
 
+               {/* regular nav */}
+               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                  {currentUser.is_admin
+                     ? adminPages.map((page) => (
+                          <Link
+                             key={page}
+                             href={`/${page}`}
+                             color="inherit"
+                             sx={{
+                                mr: 3,
+                                color: 'white',
+                                display: 'block',
+                                textDecoration: 'none',
+                             }}
+                          >
+                             {page}
+                          </Link>
+                       ))
+                     : userPages.map((page) => (
+                          <Link
+                             key={page}
+                             href={`/${page}`}
+                             color="inherit"
+                             sx={{
+                                mr: 3,
+                                color: 'white',
+                                display: 'block',
+                                textDecoration: 'none',
+                             }}
+                          >
+                             {page}
+                          </Link>
+                       ))}
+               </Box>
+
+               {/* profile button on nav */}
                <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
-                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                     <IconButton onClick={handleOpenUserMenu} sx={{ m: 1 }}>
                         <Avatar
-                           alt="Remy Sharp"
+                           alt={currentUser.first_name.charAt(0)}
                            src="/static/images/avatar/2.jpg"
                         />
                      </IconButton>
@@ -168,7 +252,17 @@ const ResponsiveAppBar = ({ currentUser }) => {
                   >
                      {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                           <Typography textAlign="center">{setting}</Typography>
+                           <Link
+                              href={`/${setting}`}
+                              id="btn-logout"
+                              data-hover={setting}
+                              // TO-DO: make onClick dynamic
+                              onClick={logout}
+                              color="inherit"
+                              sx={{ textDecoration: 'none' }}
+                           >
+                              {setting}
+                           </Link>
                         </MenuItem>
                      ))}
                   </Menu>

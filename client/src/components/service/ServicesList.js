@@ -3,6 +3,7 @@ import { useState } from 'react';
 import NewServiceForm from './NewServiceForm';
 import Modal from 'react-modal';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import Grid from '@mui/material/Unstable_Grid2';
 
 function ServicesList({
    services,
@@ -58,19 +59,20 @@ function ServicesList({
    };
 
    const serviceEl = services.map((service) => (
-      <ServiceCard
-         key={service.id}
-         currentUser={currentUser}
-         service={service}
-         updateService={updateService}
-         deleteService={deleteService}
-         serviceTypes={serviceTypes}
-         durations={durations}
-         cart={cart}
-         addCartItem={addCartItem}
-         handleFave={handleFave}
-         handleCart={handleCart}
-      />
+      <Grid xs={12} sm={6} md={3} key={service.id}>
+         <ServiceCard
+            currentUser={currentUser}
+            service={service}
+            updateService={updateService}
+            deleteService={deleteService}
+            serviceTypes={serviceTypes}
+            durations={durations}
+            cart={cart}
+            addCartItem={addCartItem}
+            handleFave={handleFave}
+            handleCart={handleCart}
+         />
+      </Grid>
    ));
 
    return (
@@ -83,7 +85,11 @@ function ServicesList({
                </button>
             </div>
          )}
-         <div className="wrapper"> {serviceEl}</div>
+         <Grid container spacing={3}>
+            {' '}
+            {serviceEl}
+         </Grid>
+         {/* <div className="wrapper"> {serviceEl}</div> */}
 
          <Modal
             isOpen={modalIsOpen}

@@ -16,7 +16,6 @@
    box-sizing: border-box;
 }
 body {
-   margin: 0;
    background-color: var(--color-brand--2);
    font-family: 'Serif';
    /* font-family: 'Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
@@ -45,7 +44,7 @@ h1 {
 h2 {
    text-align: center;
    color: var(--color-brand--1);
-   margin: 2rem;
+   margin: 1rem;
 }
 
 h3 {
@@ -55,6 +54,18 @@ h3 {
 img {
    height: 100px;
    width: auto;
+}
+
+@media (min-height: 1rem) {
+}
+
+@media (max-height: 7rem) {
+}
+
+@media (min-width: 10%) {
+}
+
+@media (max-width: 30%) {
 }
 
 a {
@@ -172,15 +183,15 @@ footer {
    color: var(--color-brand--3);
 }
 
-.parent {
+/* .parent {
    text-align: center;
    background-color: var(--color-brand--1);
-}
+} */
 
-.child {
+/* .child {
    display: inline-block;
    vertical-align: middle;
-}
+} */
 
 .nav-container {
    font-size: 1.5rem;

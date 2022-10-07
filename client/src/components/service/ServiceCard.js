@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 import EditServiceForm from './EditServiceForm';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 function ServiceCard({
    currentUser,
@@ -69,15 +72,25 @@ function ServiceCard({
    const foundCartItem = cart.find(({ id }) => service.id === id);
 
    return (
-      <div className="card center" key={id}>
-         <img src={image_url} alt={name} />
-         <h2>{name}</h2>
-         <h3>{description}</h3>
-         <h3>Price: {price === 0 ? 'Free!' : `$ ${price}`}</h3>
-         <h3>Service Type: {service_type_name}</h3>
-         {service_type_name === 'Spa' && (
-            <h3>Duration: {time_interval} mins</h3>
-         )}
+      <Paper elevation={5} key={id}>
+         <div className="center">
+            <img className="center" src={image_url} alt={name} />
+         </div>
+         <Typography component="h2" variant="h5">
+            {name}
+         </Typography>
+         <Box sx={{ textAlign: 'center' }} paddingX={1}>
+            <Typography component="h3" variant="h6">
+               <Box>{description}</Box>
+               <Box>Price: {price === 0 ? 'Free!' : `$ ${price}`}</Box>
+               <Box>Service Type: {service_type_name}</Box>
+               <Box>
+                  {service_type_name === 'Spa' && (
+                     <>Duration: {time_interval} mins</>
+                  )}
+               </Box>
+            </Typography>
+         </Box>{' '}
          <div className="card-actions">
             {currentUser.is_admin && (
                <>
@@ -123,7 +136,7 @@ function ServiceCard({
                )
             )}
          </div>
-      </div>
+      </Paper>
    );
 }
 

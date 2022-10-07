@@ -36,7 +36,7 @@ function Footer() {
                </li>
             </ul>
             <div className="footer-bottom">
-               <div class="footer-menu">
+               <div className="footer-menu">
                   <ul>
                      <li>
                         <Link to="/services">Services</Link>

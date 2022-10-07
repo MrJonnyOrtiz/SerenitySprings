@@ -1,6 +1,6 @@
-import logo from '../assets/serenitySpringsLogoNoName.png';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import logo from '../assets/serenitySpringsLogoNoName.png';
 import { Link } from 'react-router-dom';
 
 function Header() {

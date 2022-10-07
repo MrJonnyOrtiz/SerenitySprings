@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Nav from './Nav';
+import AppBar from './AppBar';
 import Login from './Login';
 import Welcome from './Welcome';
 import NewDurationForm from './duration/NewDurationForm';
@@ -148,7 +149,8 @@ function Main() {
    // }
 
    return (
-      <div className="main">
+      <div>
+         <AppBar currentUser={currentUser} />
          <Nav
             handleCurrentUser={handleCurrentUser}
             currentUser={currentUser}

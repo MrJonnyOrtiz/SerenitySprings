@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import ServiceTypeCard from './ServiceTypeCard';
-import NewServiceTypeForm from './NewServiceTypeForm';
+import ServiceTypeCard from '../components/serviceType/ServiceTypeCard';
+import NewServiceTypeForm from '../components/serviceType/NewServiceTypeForm';
 import Modal from 'react-modal';
-import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 function ServiceTypeList({ serviceTypes, addServiceType, handleServiceTypes }) {
    const [modalIsOpen, setIsOpen] = useState(false);

@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import AppBar from './AppBar';
 import Login from './Login';
-import Welcome from './Welcome';
+import Welcome from '../pages/Welcome';
 import NewDurationForm from './duration/NewDurationForm';
-import DurationsList from './duration/DurationsList';
+import DurationsList from '../pages/DurationsList';
 import NewServiceTypeForm from './serviceType/NewServiceTypeForm';
-import ServiceTypeList from './serviceType/ServiceTypeList';
-import ServicesList from './service/ServicesList';
+import ServiceTypeList from '../pages/ServiceTypeList';
+import ServicesList from '../pages/ServicesList';
 import NewServiceForm from './service/NewServiceForm';
-import FavoritesList from './favorite/FavoritesList';
-import Booking from './booking/Booking';
-import CartList from './cart/CartList';
-import AboutUs from './AboutUs';
+import FavoritesList from '../pages/FavoritesList';
+import Booking from '../pages/Booking';
+import CartList from '../pages/CartList';
+import About from '../pages/About';
 
 function Main() {
    const [currentUser, setCurrentUser] = useState(null);
@@ -225,8 +225,8 @@ function Main() {
                <CartList cart={cart} setCart={handleCart} />
             </Route>
 
-            <Route path="/aboutus">
-               <AboutUs />
+            <Route path="/about">
+               <About />
             </Route>
 
             <Route path="/login">

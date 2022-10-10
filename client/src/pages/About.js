@@ -1,9 +1,9 @@
 import React from 'react';
 
-function AboutUs() {
+function About() {
    return (
       <div className="center">
-         <h2>AboutUs</h2>
+         <h2>About Us</h2>
          <img
             id="owners"
             src="https://serenity-springs-assets.s3.amazonaws.com/AboutUs.jpeg"
@@ -24,4 +24,4 @@ function AboutUs() {
    );
 }
 
-export default AboutUs;
+export default About;

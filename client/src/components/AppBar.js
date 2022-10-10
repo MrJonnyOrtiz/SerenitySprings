@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/serenitySpringsLogoNoName.png';
 import Link from '@mui/material/Link';
 
-const userPages = ['services', 'faves', 'bookings', 'cart', 'aboutus'];
+const userPages = ['services', 'faves', 'bookings', 'cart', 'about'];
 const adminPages = ['services', 'durations', 'service_types'];
 const settings = ['logout'];
 
@@ -51,7 +51,7 @@ const ResponsiveAppBar = ({
    };
 
    return (
-      <AppBar position="sticky">
+      <AppBar position="static">
          <Container
             maxWidth="xl"
             sx={{ backgroundColor: 'var(--color-brand--1)' }}
@@ -66,11 +66,7 @@ const ResponsiveAppBar = ({
                      textDecoration: 'none',
                   }}
                >
-                  <Box
-                     sx={{
-                        textAlign: 'center',
-                     }}
-                  >
+                  <Box>
                      <Box
                         sx={{
                            display: 'inline-block',
@@ -131,14 +127,29 @@ const ResponsiveAppBar = ({
                      {currentUser.is_admin
                         ? adminPages.map((page) => (
                              <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Link href={`/${page}`} color="inherit">
+                                <Link
+                                   href={`/${page}`}
+                                   color="inherit"
+                                   underline="hover"
+                                   sx={{
+                                      textDecoration: 'none',
+                                   }}
+                                >
                                    {page}
                                 </Link>
                              </MenuItem>
                           ))
                         : userPages.map((page) => (
                              <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Link href={`/${page}`} color="inherit">
+                                <Link
+                                   href={`/${page}`}
+                                   color="inherit"
+                                   underline="hover"
+                                   sx={{
+                                      textDecoration: 'none',
+                                      underline: 'hover',
+                                   }}
+                                >
                                    {page}
                                 </Link>
                              </MenuItem>
@@ -149,7 +160,6 @@ const ResponsiveAppBar = ({
                {/* xs logo and name  */}
                <Box
                   sx={{
-                     mr: 2,
                      display: { xs: 'flex', md: 'none' },
                      flexGrow: 1,
                      color: 'inherit',
@@ -196,7 +206,7 @@ const ResponsiveAppBar = ({
                           <Link
                              key={page}
                              href={`/${page}`}
-                             color="inherit"
+                             underline="hover"
                              sx={{
                                 mr: 3,
                                 color: 'white',
@@ -211,7 +221,7 @@ const ResponsiveAppBar = ({
                           <Link
                              key={page}
                              href={`/${page}`}
-                             color="inherit"
+                             underline="hover"
                              sx={{
                                 mr: 3,
                                 color: 'white',

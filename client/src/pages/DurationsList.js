@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import DurationCard from './DurationCard';
-import NewDurationForm from './NewDurationForm';
+import DurationCard from '../components/duration/DurationCard';
+import NewDurationForm from '../components/duration/NewDurationForm';
 import Modal from 'react-modal';
-import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 function DurationsList({ durations, addDuration, handleDurations }) {
    const [modalIsOpen, setIsOpen] = useState(false);

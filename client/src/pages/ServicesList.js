@@ -1,8 +1,8 @@
-import ServiceCard from './ServiceCard';
+import ServiceCard from '../components/service/ServiceCard';
 import { useState } from 'react';
-import NewServiceForm from './NewServiceForm';
+import NewServiceForm from '../components/service/NewServiceForm';
 import Modal from 'react-modal';
-import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import Grid from '@mui/material/Unstable_Grid2';
 
 function ServicesList({

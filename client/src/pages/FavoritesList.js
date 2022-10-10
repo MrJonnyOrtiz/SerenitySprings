@@ -1,5 +1,5 @@
-import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import FavoriteCard from './FavoriteCard';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import FavoriteCard from '../components/favorite/FavoriteCard';
 
 function FavoritesList({ currentUser, handleCurrentUser }) {
    useDocumentTitle('Serenity Springs - Favorites List');

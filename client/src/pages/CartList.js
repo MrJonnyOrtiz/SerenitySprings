@@ -1,4 +1,4 @@
-import CartCard from './CartCard';
+import CartCard from '../components/cart/CartCard';
 
 function CartList({ cart, setCart }) {
    const deleteCartItem = (deletedCartItem) => {

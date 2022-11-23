@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import AppBar from './AppBar';
+import Footer from './Footer';
 import Login from './Login';
 import Welcome from '../pages/Welcome';
 import NewDurationForm from './duration/NewDurationForm';
@@ -155,12 +156,6 @@ function Main() {
             cart={cart}
             handleCart={handleCart}
          />
-         {/* <Nav
-            handleCurrentUser={handleCurrentUser}
-            currentUser={currentUser}
-            cart={cart}
-            handleCart={handleCart}
-         /> */}
          <Switch>
             <Route path="/durations/new">
                <NewDurationForm addDuration={addDuration} />
@@ -237,6 +232,12 @@ function Main() {
                <Welcome currentUser={currentUser} />
             </Route>
          </Switch>
+         <Footer
+            currentUser={currentUser}
+            handleCurrentUser={handleCurrentUser}
+            cart={cart}
+            handleCart={handleCart}
+         />
       </div>
    );
 }

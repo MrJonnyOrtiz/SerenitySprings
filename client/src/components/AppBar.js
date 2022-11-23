@@ -55,7 +55,9 @@ const ResponsiveAppBar = ({
       <AppBar position="static">
          <Container
             maxWidth="xl"
-            sx={{ backgroundColor: 'var(--color-brand--1)' }}
+            sx={{
+               backgroundColor: 'var(--color-brand--1)',
+            }}
          >
             <Toolbar disableGutters>
                {/* regular logo and name */}

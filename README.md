@@ -53,4 +53,4 @@ Serenity Springs is a web app for Serenity Springs Spa located in Tampa, FL. It 
    -  pedicure: Photo by <a href="https://unsplash.com/@runejohs?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Rune Enstad</a> on <a href="https://unsplash.com/s/photos/pedicure?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
    -  manicure: Photo by <a href="https://unsplash.com/@newleonin?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Patrícia Hellinger</a> on <a href="https://unsplash.com/s/photos/manicure?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 
--  Logo made in Canvas
+-  Logo made in Canvas by yours truly

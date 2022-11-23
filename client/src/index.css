@@ -68,16 +68,6 @@ a {
    text-decoration: none;
 }
 
-/* .parent {
-   text-align: center;
-   background-color: var(--color-brand--1);
-} */
-
-/* .child {
-   display: inline-block;
-   vertical-align: middle;
-} */
-
 .form-container {
    clear: both;
 }
@@ -124,7 +114,7 @@ a {
    border-color: var(--color-brand--4);
    border-width: 0.5rem;
    border-style: solid;
-   margin: 0% 15% 0 15%;
+   margin: 1rem 15% 0 15%;
 }
 
 .benes-list {

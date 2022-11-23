@@ -154,7 +154,12 @@ function Footer(currentUser, handleCurrentUser, cart, handleCart) {
                   </Grid>
 
                   <Grid xs={12}>
-                     <Box>
+                     <Box
+                        sx={{
+                           display: 'flex',
+                           justifyContent: 'center',
+                        }}
+                     >
                         Copyright © {new Date().getFullYear()} &nbsp;
                         <Link
                            href="https://cloudrealmllc.com"

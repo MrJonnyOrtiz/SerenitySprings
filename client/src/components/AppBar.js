@@ -127,7 +127,7 @@ const ResponsiveAppBar = ({
                      {currentUser.is_admin
                         ? adminPages.map((page) => (
                              <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Link
+                                <Button
                                    href={`/${page}`}
                                    color="inherit"
                                    underline="hover"
@@ -136,12 +136,12 @@ const ResponsiveAppBar = ({
                                    }}
                                 >
                                    {page}
-                                </Link>
+                                </Button>
                              </MenuItem>
                           ))
                         : userPages.map((page) => (
                              <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Link
+                                <Button
                                    href={`/${page}`}
                                    color="inherit"
                                    underline="hover"
@@ -151,7 +151,7 @@ const ResponsiveAppBar = ({
                                    }}
                                 >
                                    {page}
-                                </Link>
+                                </Button>
                              </MenuItem>
                           ))}
                   </Menu>
@@ -167,9 +167,10 @@ const ResponsiveAppBar = ({
                   >
                      <Box
                         sx={{
-                           display: 'flex',
+                           display: { xs: 'flex' },
                            mt: 2,
                            textAlign: 'center',
+                           alignItems: 'center',
                            backgroundColor: 'var(--color-brand--1)',
                         }}
                      >
@@ -183,7 +184,6 @@ const ResponsiveAppBar = ({
                               <img
                                  src={logo}
                                  alt="serenity springs salon and spa logo"
-                                 style={{ width: '100%', height: 'auto' }}
                               />
                            </Link>
                         </Box>
@@ -191,7 +191,6 @@ const ResponsiveAppBar = ({
                            sx={{
                               display: 'inline-block',
                               verticalAlign: 'middle',
-                              ml: -4,
                            }}
                         >
                            <Typography component="h1" variant="h4">
@@ -265,7 +264,7 @@ const ResponsiveAppBar = ({
                   >
                      {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                           <Link
+                           <Button
                               href={`/${setting}`}
                               id="btn-logout"
                               data-hover={setting}
@@ -275,7 +274,7 @@ const ResponsiveAppBar = ({
                               sx={{ textDecoration: 'none' }}
                            >
                               {setting}
-                           </Link>
+                           </Button>
                         </MenuItem>
                      ))}
                   </Menu>

@@ -8,14 +8,15 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/serenitySpringsLogoNoName.png';
 import Link from '@mui/material/Link';
 
-const userPages = ['services', 'faves', 'bookings', 'cart', 'about'];
-const adminPages = ['services', 'durations', 'service_types'];
-const settings = ['logout'];
+const userPages = ['Services', 'Faves', 'Bookings', 'Cart', 'About'];
+const adminPages = ['Services', 'Durations', 'Service types'];
+const settings = ['Logout'];
 
 const ResponsiveAppBar = ({
    currentUser,
@@ -60,7 +61,6 @@ const ResponsiveAppBar = ({
                {/* regular logo and name */}
                <Box
                   sx={{
-                     mr: 2,
                      display: { xs: 'none', md: 'flex' },
                      color: 'inherit',
                      textDecoration: 'none',
@@ -155,46 +155,49 @@ const ResponsiveAppBar = ({
                              </MenuItem>
                           ))}
                   </Menu>
-               </Box>
 
-               {/* xs logo and name  */}
-               <Box
-                  sx={{
-                     display: { xs: 'flex', md: 'none' },
-                     flexGrow: 1,
-                     color: 'inherit',
-                     textDecoration: 'none',
-                  }}
-               >
+                  {/* xs logo and name  */}
                   <Box
                      sx={{
-                        textAlign: 'center',
-                        backgroundColor: 'var(--color-brand--1)',
+                        display: { xs: 'flex', md: 'none' },
+                        flexGrow: 1,
+                        color: 'inherit',
+                        textDecoration: 'none',
                      }}
                   >
                      <Box
                         sx={{
-                           display: 'inline-block',
-                           verticalAlign: 'middle',
+                           display: 'flex',
+                           mt: 2,
+                           textAlign: 'center',
+                           backgroundColor: 'var(--color-brand--1)',
                         }}
                      >
-                        <Link href="/">
-                           <img
-                              src={logo}
-                              alt="serenity springs salon and spa logo"
-                           />
-                        </Link>
-                     </Box>
-                     <Box
-                        sx={{
-                           display: 'inline-block',
-                           verticalAlign: 'middle',
-                           mr: 3,
-                        }}
-                     >
-                        <Typography component="h1" variant="h4">
-                           <strong>Serenity Springs</strong>
-                        </Typography>
+                        <Box
+                           sx={{
+                              display: 'inline-block',
+                              verticalAlign: 'middle',
+                           }}
+                        >
+                           <Link href="/">
+                              <img
+                                 src={logo}
+                                 alt="serenity springs salon and spa logo"
+                                 style={{ width: '100%', height: 'auto' }}
+                              />
+                           </Link>
+                        </Box>
+                        <Box
+                           sx={{
+                              display: 'inline-block',
+                              verticalAlign: 'middle',
+                              ml: -4,
+                           }}
+                        >
+                           <Typography component="h1" variant="h4">
+                              <strong>Serenity Springs</strong>
+                           </Typography>
+                        </Box>
                      </Box>
                   </Box>
                </Box>

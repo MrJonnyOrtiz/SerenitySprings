@@ -5,7 +5,10 @@ import Footer from './Footer';
 import Login from './Login';
 import Welcome from '../pages/Welcome';
 import NewDurationForm from './duration/NewDurationForm';
-import DurationsList from '../pages/DurationsList';
+import List from './List';
+import Button from '@mui/material/Button';
+
+// import DurationsList from '../pages/DurationsList';
 import NewServiceTypeForm from './serviceType/NewServiceTypeForm';
 import ServiceTypeList from '../pages/ServiceTypeList';
 import ServicesList from '../pages/ServicesList';
@@ -73,6 +76,35 @@ function Main() {
    const handleDurations = (duration) => {
       setDurations(duration);
    };
+
+   // GENERIC DELETE
+   const deleteRecord = (arr, deletedElement, setArr) => {
+      const updatedArr = arr.filter(
+         (record) => record.id !== deletedElement.id
+      );
+      setArr(updatedArr);
+   };
+
+   const handleDelete = async (Id, endpoint, arr) => {
+      const id = +Id.target.parentElement.parentElement.id;
+      try {
+         const response = await fetch(`/${endpoint}/${id}`, {
+            method: 'DELETE',
+         });
+         if (response.ok) {
+            const returnedData = await response.json();
+            deleteRecord(arr, returnedData, handleDurations);
+         } else {
+            const { errors } = await response.json();
+            throw new Error(
+               `Problem with delete: ${errors} ${response.status}: ${response.statusText}`
+            );
+         }
+      } catch (error) {
+         alert(error);
+      }
+   };
+   // end GENERIC DELETE
 
    const handleServiceTypes = (serviceType) => {
       setServiceTypes(serviceType);
@@ -162,11 +194,23 @@ function Main() {
             </Route>
 
             <Route path="/durations">
-               <DurationsList
-                  durations={durations}
-                  addDuration={addDuration}
-                  handleDurations={handleDurations}
-               />
+               <List
+                  arrName="Durations"
+                  arr={durations}
+                  addArr={addDuration}
+                  initialData={{ time_interval: '' }}
+                  endpoint="durations"
+                  title="duration"
+               >
+                  <Button
+                     size="small"
+                     onClick={(Id) => {
+                        handleDelete(Id, 'durations', durations);
+                     }}
+                  >
+                     Delete
+                  </Button>
+               </List>
             </Route>
 
             <Route path="/service_types/new">

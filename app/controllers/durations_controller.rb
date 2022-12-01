@@ -24,7 +24,7 @@ class DurationsController < ApplicationController
     def destroy
         duration = Duration.find(params[:id])
         duration.destroy
-        head :no_content
+        render json: duration, status: :ok
     end
 
     private

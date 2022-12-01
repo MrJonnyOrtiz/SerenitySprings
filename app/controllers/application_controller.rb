@@ -3,6 +3,7 @@ class ApplicationController < ActionController::API
 
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+  rescue_from ActiveRecord::InvalidForeignKey, with: :render_fk_violation_response
 
 
   # def hello_world
@@ -30,6 +31,10 @@ class ApplicationController < ActionController::API
 
   def render_not_found_response(invalid)
     render json: { errors: invalid }, status: :not_found
+  end
+
+  def render_fk_violation_response(invalid)
+    render json: { errors: "duration tied to a service" }, status: :forbidden
   end
   
 end

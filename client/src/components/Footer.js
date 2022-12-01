@@ -15,7 +15,9 @@ function Footer(currentUser, handleCurrentUser, cart, handleCart) {
             }}
          >
             <Container maxWidth="lg">
-               <Grid container spacing={5}>
+               <Grid container spacing={3}>
+                  {/* 3 COLUMNS */}
+
                   <Grid xs={12} sm={4}>
                      <Box>
                         <Typography variant="h5">
@@ -153,6 +155,7 @@ function Footer(currentUser, handleCurrentUser, cart, handleCart) {
                      </Box>
                   </Grid>
 
+                  {/* COPYRIGHT */}
                   <Grid xs={12}>
                      <Box
                         sx={{

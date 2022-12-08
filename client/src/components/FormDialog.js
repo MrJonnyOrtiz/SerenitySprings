@@ -1,7 +1,7 @@
 import { useForm } from '../hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import Button from '@mui/material/Button';
-// import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -22,38 +22,69 @@ export default function FormDialog({
 
    const { formData, handleChange } = useForm(initialData);
 
+   const initialDataKeys = Object.keys(initialData);
+
    const handleSubmit = (e) => {
       e.preventDefault();
-      if (formData.time_interval < 0) {
-         console.log('Time interval cannot be negative');
-      } else if (!(formData.time_interval % 15 === 0)) {
-         console.log('Time interval must be in 15 minute increments');
-      } else {
-         // post it
+
+      function postData(dataObj, objKey) {
          const configObj = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...formData }),
+            body: JSON.stringify({ ...dataObj }),
          };
 
          fetch(`/${endpoint}`, configObj).then((res) => {
             if (res.ok) {
-               res.json().then((newDuration) => {
-                  addArr(newDuration);
-                  alert(`${formData.time_interval} added`);
+               res.json().then((newPostedObj) => {
+                  addArr(newPostedObj);
+
+                  //TODO - refactor success notification
+                  alert(`${dataObj[objKey]} added`);
 
                   history.push(`/${arrName}`);
                });
             } else {
                res.json().then((data) => {
-                  alert(
-                     `${formData.time_interval} ${data.errors.time_interval[0]}`
-                  );
+                  //TODO - refactor error notification
+                  alert(`${dataObj[objKey]} ${data.errors.time_interval[0]}`);
                });
             }
          });
       }
+
+      // validations
+      initialDataKeys.forEach((objKey) => {
+         if (objKey === 'time_interval') {
+            const time_intervalInt = parseInt(formData.time_interval);
+            if (time_intervalInt < 0) {
+               alert(
+                  `Time interval entered ${time_intervalInt} cannot be negative`
+               );
+            } else if (!(time_intervalInt % 15 === 0)) {
+               alert(
+                  `Time interval entered ${time_intervalInt} must be in 15 minute increments`
+               );
+            } else {
+               postData(formData, objKey);
+            }
+         } else {
+            // objKey is not time_interval
+            postData(formData, objKey);
+         }
+      });
    };
+
+   const inputEl = initialDataKeys.map((objKey) => (
+      <TextField
+         key={objKey}
+         // type="number"
+         name={objKey}
+         id={objKey}
+         value={formData[objKey]}
+         onChange={handleChange}
+      />
+   ));
 
    return (
       <div>
@@ -61,14 +92,15 @@ export default function FormDialog({
             <DialogTitle>Add {title}</DialogTitle>
             <DialogContent>
                <DialogContentText>Enter a {title}</DialogContentText>
-               <input
+               {/*<input
                   type="number"
                   step="15"
                   name="time_interval"
                   id="time_interval"
                   value={formData.time_interval}
                   onChange={handleChange}
-               />
+               /> */}
+               {inputEl}
             </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>

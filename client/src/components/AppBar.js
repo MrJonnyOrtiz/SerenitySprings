@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/serenitySpringsLogoNoName.png';
 import Link from '@mui/material/Link';
 
-const userPages = ['services', 'faves', 'bookings', 'cart', 'about'];
+const userPages = ['services', 'favorites', 'bookings', 'cart', 'about'];
 const adminPages = ['services', 'durations', 'service_types'];
 const settings = ['Logout'];
 

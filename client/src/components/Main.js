@@ -4,15 +4,12 @@ import AppBar from './AppBar';
 import Footer from './Footer';
 import Login from './Login';
 import Welcome from '../pages/Welcome';
-// import NewDurationForm from './duration/NewDurationForm';
 import FormDialog from './FormDialog';
 
 import List from './List';
 import Button from '@mui/material/Button';
 
-import NewServiceTypeForm from './serviceType/NewServiceTypeForm';
-// import ServiceTypeList from '../pages/ServiceTypeList';
-import ServicesList from '../pages/ServicesList';
+// import ServicesList from '../pages/ServicesList';
 import NewServiceForm from './service/NewServiceForm';
 import FavoritesList from '../pages/FavoritesList';
 import Booking from '../pages/Booking';
@@ -87,7 +84,7 @@ function Main() {
       setDurations(duration);
    };
 
-   // GENERIC DELETE
+   // GENERIC DELETE FUNCTIONS
    const deleteRecord = (arr, deletedElement, setArr) => {
       const updatedArr = arr.filter(
          (record) => record.id !== deletedElement.id
@@ -114,7 +111,7 @@ function Main() {
          alert(error);
       }
    };
-   // end GENERIC DELETE
+   // end GENERIC DELETE FUNCTIONS
 
    const handleServices = (service) => {
       setServices(service);
@@ -147,34 +144,37 @@ function Main() {
       setServices(updatedServices);
    }
 
-   const handleFave = (id) => {
-      const configObj = {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({
-            wishlist_id: currentUser.wishlist.id,
-            service_id: id,
-         }),
-      };
+   const handleFave = async (Id, endpoint) => {
+      const id = +Id.target.parentElement.parentElement.id;
 
-      fetch(`/favorites`, configObj).then((res) => {
-         if (res.ok) {
-            res.json().then((newFavorite) => {
+      try {
+         const configObj = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+               wishlist_id: currentUser.wishlist.id,
+               service_id: id,
+            }),
+         };
+
+         const response = await fetch(`/${endpoint}`, configObj);
+
+         if (response.ok) {
+            response.json().then((newFavorite) => {
                fetch(`/users/${currentUser.id}`).then((res) => {
                   if (res.ok)
                      res.json().then((user) => handleCurrentUser(user));
                });
             });
          } else {
-            res.json().then(
-               (data) => console.log(data.errors)
-               // TODO: HANDLE ERROR
-               //   setError(data.errors.service_type_name[0])
-               // data.errors.duration[0]
-               // data.errors.service_type[0]
+            const { errors } = await response.json();
+            throw new Error(
+               `Problem with fave: ${errors} ${response.status}: ${response.statusText}`
             );
          }
-      });
+      } catch (error) {
+         alert(error);
+      }
    };
 
    if (!currentUser) return <Login handleCurrentUser={handleCurrentUser} />;
@@ -196,17 +196,19 @@ function Main() {
          />
          <Switch>
             <Route path="/durations/new">
-               <FormDialog
-                  arrName="Durations"
-                  arr={durations}
-                  addArr={addDuration}
-                  initialData={{ time_interval: '' }}
-                  title="duration"
-                  endpoint="durations"
-                  open={true}
-                  handleClickOpen={handleClickOpen}
-                  handleClose={handleClose}
-               />
+               {currentUser.is_admin && (
+                  <FormDialog
+                     arrName="Durations"
+                     arr={durations}
+                     addArr={addDuration}
+                     initialData={{ time_interval: '' }}
+                     title="duration"
+                     endpoint="durations"
+                     open={true}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  />
+               )}
             </Route>
 
             <Route path="/durations">
@@ -217,6 +219,7 @@ function Main() {
                   initialData={{ time_interval: '' }}
                   endpoint="durations"
                   title="duration"
+                  currentUser={currentUser}
                   open={open}
                   handleClickOpen={handleClickOpen}
                   handleClose={handleClose}
@@ -234,7 +237,19 @@ function Main() {
             </Route>
 
             <Route path="/service_types/new">
-               <NewServiceTypeForm addServiceType={addServiceType} />
+               {currentUser.is_admin && (
+                  <FormDialog
+                     arrName="Service Types"
+                     arr={serviceTypes}
+                     addArr={addServiceType}
+                     initialData={{ service_type_name: '' }}
+                     title="service type"
+                     endpoint="service_types"
+                     open={true}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  />
+               )}
             </Route>
 
             <Route path="/service_types">
@@ -245,6 +260,7 @@ function Main() {
                   initialData={{ service_type_name: '' }}
                   endpoint="service_types"
                   title="service type"
+                  currentUser={currentUser}
                   open={open}
                   handleClickOpen={handleClickOpen}
                   handleClose={handleClose}
@@ -270,7 +286,7 @@ function Main() {
             </Route>
 
             <Route path="/services">
-               <ServicesList
+               {/* <ServicesList
                   currentUser={currentUser}
                   services={services}
                   addService={addService}
@@ -282,7 +298,64 @@ function Main() {
                   addCartItem={addCartItem}
                   handleFave={handleFave}
                   handleCart={handleCart}
-               />
+               /> */}
+               <List
+                  arrName="Services"
+                  arr={services}
+                  addArr={addService}
+                  initialData={{ service_type_name: '' }}
+                  endpoint="services"
+                  title="services"
+                  currentUser={currentUser}
+                  open={open}
+                  handleClickOpen={handleClickOpen}
+                  handleClose={handleClose}
+               >
+                  {currentUser.is_admin && (
+                     <>
+                        <Button
+                           variant="outlined"
+                           size="small"
+                           onClick={(Id) => {
+                              handleDelete(Id, 'services', services);
+                           }}
+                        >
+                           Edit
+                        </Button>
+                        <Button
+                           variant="outlined"
+                           size="small"
+                           onClick={(Id) => {
+                              handleDelete(Id, 'services', services);
+                           }}
+                        >
+                           Delete
+                        </Button>
+                     </>
+                  )}
+                  {!currentUser.is_admin && (
+                     <>
+                        <Button
+                           variant="outlined"
+                           size="small"
+                           onClick={(Id) => {
+                              handleFave(Id, 'favorites');
+                           }}
+                        >
+                           Fave Me!
+                        </Button>
+                        <Button
+                           variant="outlined"
+                           size="small"
+                           onClick={(Id) => {
+                              addCartItem(Id, 'services', services);
+                           }}
+                        >
+                           Add to Cart
+                        </Button>
+                     </>
+                  )}
+               </List>
             </Route>
 
             <Route path="/favorites">

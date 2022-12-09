@@ -15,6 +15,7 @@ function List({
    children,
    title,
    endpoint,
+   currentUser,
    open,
    handleClickOpen,
    handleClose,
@@ -36,16 +37,22 @@ function List({
          <Typography variant="h5" component="h2" gutterBottom mt={2}>
             {listEl.length === 0 ? `Empty ${arrName}` : `${arrName}`}
          </Typography>
-         <Box
-            m={1}
-            display="flex"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-         >
-            <Button variant="outlined" size="small" onClick={handleClickOpen}>
-               Add {title}
-            </Button>
-         </Box>
+         {currentUser.is_admin && (
+            <Box
+               m={1}
+               display="flex"
+               justifyContent="flex-end"
+               alignItems="flex-end"
+            >
+               <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleClickOpen}
+               >
+                  Add {title}
+               </Button>
+            </Box>
+         )}
          <Grid container spacing={2}>
             {listEl}
          </Grid>

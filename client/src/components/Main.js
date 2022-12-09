@@ -4,13 +4,14 @@ import AppBar from './AppBar';
 import Footer from './Footer';
 import Login from './Login';
 import Welcome from '../pages/Welcome';
-import NewDurationForm from './duration/NewDurationForm';
+// import NewDurationForm from './duration/NewDurationForm';
+import FormDialog from './FormDialog';
+
 import List from './List';
 import Button from '@mui/material/Button';
 
-// import DurationsList from '../pages/DurationsList';
 import NewServiceTypeForm from './serviceType/NewServiceTypeForm';
-import ServiceTypeList from '../pages/ServiceTypeList';
+// import ServiceTypeList from '../pages/ServiceTypeList';
 import ServicesList from '../pages/ServicesList';
 import NewServiceForm from './service/NewServiceForm';
 import FavoritesList from '../pages/FavoritesList';
@@ -24,6 +25,7 @@ function Main() {
    const [serviceTypes, setServiceTypes] = useState([]);
    const [services, setServices] = useState([]);
    const [cart, setCart] = useState([]);
+   const [open, setOpen] = useState(false);
 
    useEffect(() => {
       fetch('/authorized_user').then((res) => {
@@ -69,6 +71,14 @@ function Main() {
       });
    }, []);
 
+   const handleClickOpen = () => {
+      setOpen(true);
+   };
+
+   const handleClose = () => {
+      setOpen(false);
+   };
+
    const handleCurrentUser = (user) => {
       setCurrentUser(user);
    };
@@ -105,10 +115,6 @@ function Main() {
       }
    };
    // end GENERIC DELETE
-
-   const handleServiceTypes = (serviceType) => {
-      setServiceTypes(serviceType);
-   };
 
    const handleServices = (service) => {
       setServices(service);
@@ -190,7 +196,17 @@ function Main() {
          />
          <Switch>
             <Route path="/durations/new">
-               <NewDurationForm addDuration={addDuration} />
+               <FormDialog
+                  arrName="Durations"
+                  arr={durations}
+                  addArr={addDuration}
+                  initialData={{ time_interval: '' }}
+                  title="duration"
+                  endpoint="durations"
+                  open={true}
+                  handleClickOpen={handleClickOpen}
+                  handleClose={handleClose}
+               />
             </Route>
 
             <Route path="/durations">
@@ -201,8 +217,12 @@ function Main() {
                   initialData={{ time_interval: '' }}
                   endpoint="durations"
                   title="duration"
+                  open={open}
+                  handleClickOpen={handleClickOpen}
+                  handleClose={handleClose}
                >
                   <Button
+                     variant="outlined"
                      size="small"
                      onClick={(Id) => {
                         handleDelete(Id, 'durations', durations);
@@ -218,11 +238,27 @@ function Main() {
             </Route>
 
             <Route path="/service_types">
-               <ServiceTypeList
-                  serviceTypes={serviceTypes}
-                  addServiceType={addServiceType}
-                  handleServiceTypes={handleServiceTypes}
-               />
+               <List
+                  arrName="Service Types"
+                  arr={serviceTypes}
+                  addArr={addServiceType}
+                  initialData={{ service_type_name: '' }}
+                  endpoint="service_types"
+                  title="service type"
+                  open={open}
+                  handleClickOpen={handleClickOpen}
+                  handleClose={handleClose}
+               >
+                  <Button
+                     variant="outlined"
+                     size="small"
+                     onClick={(Id) => {
+                        handleDelete(Id, 'service_types', serviceTypes);
+                     }}
+                  >
+                     Delete
+                  </Button>
+               </List>
             </Route>
 
             <Route exact path="/services/new">

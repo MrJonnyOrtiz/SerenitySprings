@@ -42,12 +42,16 @@ export default function FormDialog({
                   //TODO - refactor success notification
                   alert(`${dataObj[objKey]} added`);
 
-                  history.push(`/${arrName}`);
+                  history.push(`/${arrName.toLowerCase()}`);
                });
             } else {
                res.json().then((data) => {
                   //TODO - refactor error notification
-                  alert(`${dataObj[objKey]} ${data.errors.time_interval[0]}`);
+                  data.errors.time_interval[0]
+                     ? alert(
+                          `${dataObj[objKey]} ${data.errors.time_interval[0]}`
+                       )
+                     : alert(JSON.stringify(data.errors));
                });
             }
          });
@@ -58,10 +62,12 @@ export default function FormDialog({
          if (objKey === 'time_interval') {
             const time_intervalInt = parseInt(formData.time_interval);
             if (time_intervalInt < 0) {
+               //TODO - refactor error notification
                alert(
                   `Time interval entered ${time_intervalInt} cannot be negative`
                );
             } else if (!(time_intervalInt % 15 === 0)) {
+               //TODO - refactor error notification
                alert(
                   `Time interval entered ${time_intervalInt} must be in 15 minute increments`
                );
@@ -70,6 +76,7 @@ export default function FormDialog({
             }
          } else {
             // objKey is not time_interval
+            // TODO - add validation for price
             postData(formData, objKey);
          }
       });
@@ -78,7 +85,6 @@ export default function FormDialog({
    const inputEl = initialDataKeys.map((objKey) => (
       <TextField
          key={objKey}
-         // type="number"
          name={objKey}
          id={objKey}
          value={formData[objKey]}
@@ -92,14 +98,6 @@ export default function FormDialog({
             <DialogTitle>Add {title}</DialogTitle>
             <DialogContent>
                <DialogContentText>Enter a {title}</DialogContentText>
-               {/*<input
-                  type="number"
-                  step="15"
-                  name="time_interval"
-                  id="time_interval"
-                  value={formData.time_interval}
-                  onChange={handleChange}
-               /> */}
                {inputEl}
             </DialogContent>
             <DialogActions>

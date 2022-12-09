@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import ListItem from './ListItem';
 import FormDialog from './FormDialog';
@@ -16,17 +15,10 @@ function List({
    children,
    title,
    endpoint,
+   open,
+   handleClickOpen,
+   handleClose,
 }) {
-   const [open, setOpen] = useState(false);
-
-   const handleClickOpen = () => {
-      setOpen(true);
-   };
-
-   const handleClose = () => {
-      setOpen(false);
-   };
-
    useDocumentTitle(`Serenity Springs - ${arrName} List`);
 
    const listEl = arr.map((arrItem) => (
@@ -51,7 +43,7 @@ function List({
             alignItems="flex-end"
          >
             <Button variant="outlined" size="small" onClick={handleClickOpen}>
-               Add Duration
+               Add {title}
             </Button>
          </Box>
          <Grid container spacing={2}>

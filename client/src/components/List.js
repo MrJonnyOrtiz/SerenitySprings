@@ -23,7 +23,7 @@ function List({
    useDocumentTitle(`Serenity Springs - ${arrName} List`);
 
    const listEl = arr.map((arrItem) => (
-      <Grid xs={12} sm={6} md={3} key={arrItem.id}>
+      <Grid xs={12} sm={6} md={4} key={arrItem.id}>
          <Container maxWidth="sm">
             <ListItem key={arrItem.id} item={arrItem}>
                {children}

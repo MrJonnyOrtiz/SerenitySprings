@@ -92,7 +92,7 @@ function Main() {
       setArr(updatedArr);
    };
 
-   const handleDelete = async (Id, endpoint, arr) => {
+   const handleDelete = async (Id, endpoint, arr, handleArr) => {
       const id = +Id.target.parentElement.parentElement.id;
       try {
          const response = await fetch(`/${endpoint}/${id}`, {
@@ -100,7 +100,7 @@ function Main() {
          });
          if (response.ok) {
             const returnedData = await response.json();
-            deleteRecord(arr, returnedData, handleDurations);
+            deleteRecord(arr, returnedData, handleArr);
          } else {
             const { errors } = await response.json();
             throw new Error(
@@ -115,6 +115,10 @@ function Main() {
 
    const handleServices = (service) => {
       setServices(service);
+   };
+
+   const handleServiceTypes = (serviceType) => {
+      setServiceTypes(serviceType);
    };
 
    const handleCart = (cart) => {
@@ -228,7 +232,12 @@ function Main() {
                      variant="outlined"
                      size="small"
                      onClick={(Id) => {
-                        handleDelete(Id, 'durations', durations);
+                        handleDelete(
+                           Id,
+                           'durations',
+                           durations,
+                           handleDurations
+                        );
                      }}
                   >
                      Delete
@@ -269,7 +278,12 @@ function Main() {
                      variant="outlined"
                      size="small"
                      onClick={(Id) => {
-                        handleDelete(Id, 'service_types', serviceTypes);
+                        handleDelete(
+                           Id,
+                           'service_types',
+                           serviceTypes,
+                           handleServiceTypes
+                        );
                      }}
                   >
                      Delete

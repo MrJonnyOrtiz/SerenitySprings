@@ -10,18 +10,20 @@ import Typography from '@mui/material/Typography';
 function ListItem({ item, children }) {
    // cycle through the item's keys and create the card's image if present and content
 
-   const cardTitleNames = [
-      'time_interval',
-      'service_type_name',
-      'name',
-      'first_name',
-      'last_name',
-   ];
+   const cardTitleNames = ['name', 'first_name', 'last_name'];
+
+   console.log(children);
 
    const itemEntries = Object.entries(item);
 
    const itemEl = itemEntries.map(([k, v]) => {
-      if (k === 'id') return false;
+      if (
+         k === 'id' ||
+         k === 'image_url' ||
+         k === 'service_type_id' ||
+         k === 'duration_id'
+      )
+         return false;
 
       // is the key a card title name, or card content
       if (cardTitleNames.includes(k)) {
@@ -29,7 +31,7 @@ function ListItem({ item, children }) {
          return (
             <Box key={k}>
                <Typography gutterBottom variant="h5" component="div">
-                  {k === 'time_interval' ? `${v} minutes` : v}
+                  {v}
                </Typography>
             </Box>
          );
@@ -38,7 +40,9 @@ function ListItem({ item, children }) {
          return (
             <Box key={k}>
                <Typography variant="body2" color="text.secondary">
-                  {k === 'price' ? `$ ${v}` : v}
+                  {(k === 'price' && `$ ${v}`) ||
+                     (k === 'service_type_name' && `${v} service`) ||
+                     (k === 'description' && `Service details: ${v}`)}
                </Typography>
             </Box>
          );
@@ -53,10 +57,17 @@ function ListItem({ item, children }) {
                   component="img"
                   height="140"
                   image={item.image_url}
-                  alt="green iguana"
+                  alt={item.description}
                />
             )}
-            <CardContent>{itemEl}</CardContent>
+            <CardContent>
+               {itemEl}
+               {item.service_type_name === 'Spa' && (
+                  <Typography variant="body2" color="text.secondary">
+                     {item.time_interval} minutes
+                  </Typography>
+               )}
+            </CardContent>
             <CardActions>{children}</CardActions>
          </Card>
       </Container>

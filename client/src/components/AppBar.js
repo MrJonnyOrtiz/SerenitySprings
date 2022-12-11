@@ -152,7 +152,10 @@ const ResponsiveAppBar = ({
                                       underline: 'hover',
                                    }}
                                 >
-                                   {page}
+                                   {/* {page} */}
+                                   {page === 'favorites'
+                                      ? `favorites (${currentUser.favorites.length})`
+                                      : page}
                                 </Button>
                              </MenuItem>
                           ))}
@@ -233,7 +236,9 @@ const ResponsiveAppBar = ({
                                 textDecoration: 'none',
                              }}
                           >
-                             {page}
+                             {page === 'favorites'
+                                ? `favorites (${currentUser.favorites.length})`
+                                : page}
                           </Link>
                        ))}
                </Box>

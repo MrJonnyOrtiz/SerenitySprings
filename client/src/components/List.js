@@ -25,7 +25,7 @@ function List({
    const listEl = arr.map((arrItem) => (
       <Grid xs={12} sm={6} md={4} key={arrItem.id}>
          <Container maxWidth="sm">
-            <ListItem key={arrItem.id} item={arrItem}>
+            <ListItem key={arrItem.id} item={arrItem} currentUser={currentUser}>
                {children}
             </ListItem>
          </Container>

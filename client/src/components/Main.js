@@ -113,6 +113,12 @@ function Main() {
    };
    // end GENERIC DELETE FUNCTIONS
 
+   // GENERIC SETTER
+   function addArr(arr, newObj, setArr) {
+      setArr((arr) => [...arr, newObj]);
+   }
+   // end GENERIC SETTER
+
    const handleServices = (service) => {
       setServices(service);
    };
@@ -129,13 +135,13 @@ function Main() {
       setCart((cart) => [...cart, newServiceItem]);
    }
 
-   function addDuration(newDuration) {
-      setDurations((durations) => [...durations, newDuration]);
-   }
+   // function addDuration(newDuration) {
+   //    setDurations((durations) => [...durations, newDuration]);
+   // }
 
-   function addServiceType(newServiceType) {
-      setServiceTypes((serviceTypes) => [...serviceTypes, newServiceType]);
-   }
+   // function addServiceType(newServiceType) {
+   //    setServiceTypes((serviceTypes) => [...serviceTypes, newServiceType]);
+   // }
 
    function addService(newService) {
       setServices((services) => [...services, newService]);
@@ -204,7 +210,8 @@ function Main() {
                   <FormDialog
                      arrName="Durations"
                      arr={durations}
-                     addArr={addDuration}
+                     addArr={addArr}
+                     setArr={setDurations}
                      initialData={{ time_interval: '' }}
                      title="duration"
                      endpoint="durations"
@@ -219,7 +226,8 @@ function Main() {
                <List
                   arrName="Durations"
                   arr={durations}
-                  addArr={addDuration}
+                  addArr={addArr}
+                  setArr={setDurations}
                   initialData={{ time_interval: '' }}
                   endpoint="durations"
                   title="duration"
@@ -250,7 +258,8 @@ function Main() {
                   <FormDialog
                      arrName="Service Types"
                      arr={serviceTypes}
-                     addArr={addServiceType}
+                     addArr={addArr}
+                     setArr={setServiceTypes}
                      initialData={{ service_type_name: '' }}
                      title="service type"
                      endpoint="service_types"
@@ -265,7 +274,8 @@ function Main() {
                <List
                   arrName="Service Types"
                   arr={serviceTypes}
-                  addArr={addServiceType}
+                  addArr={addArr}
+                  setArr={setServiceTypes}
                   initialData={{ service_type_name: '' }}
                   endpoint="service_types"
                   title="service type"

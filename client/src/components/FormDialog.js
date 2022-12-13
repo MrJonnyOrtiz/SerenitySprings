@@ -10,8 +10,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 export default function FormDialog({
    initialData,
+   arr,
    arrName,
    addArr,
+   setArr,
    open,
    handleClickOpen,
    handleClose,
@@ -37,7 +39,7 @@ export default function FormDialog({
          fetch(`/${endpoint}`, configObj).then((res) => {
             if (res.ok) {
                res.json().then((newPostedObj) => {
-                  addArr(newPostedObj);
+                  addArr(arr, newPostedObj, setArr);
 
                   //TODO - refactor success notification
                   alert(`${dataObj[objKey]} added`);

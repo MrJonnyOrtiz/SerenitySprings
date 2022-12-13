@@ -11,6 +11,7 @@ function List({
    arrName,
    arr,
    addArr,
+   setArr,
    initialData,
    children,
    title,
@@ -60,6 +61,7 @@ function List({
             arrName={arrName}
             arr={arr}
             addArr={addArr}
+            setArr={setArr}
             initialData={initialData}
             open={open}
             handleClickOpen={handleClickOpen}

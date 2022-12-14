@@ -10,7 +10,7 @@ import List from './List';
 import Button from '@mui/material/Button';
 
 // import ServicesList from '../pages/ServicesList';
-import NewServiceForm from './service/NewServiceForm';
+// import NewServiceForm from './service/NewServiceForm';
 import FavoritesList from '../pages/FavoritesList';
 import Booking from '../pages/Booking';
 import CartList from '../pages/CartList';
@@ -23,6 +23,19 @@ function Main() {
    const [services, setServices] = useState([]);
    const [cart, setCart] = useState([]);
    const [open, setOpen] = useState(false);
+   const [serviceType, setServiceType] = useState(5);
+   // const [serviceType, setServiceType] = useState(() => {
+   //    const { id } = serviceTypes.find(
+   //       (service_type) => service_type.service_type_name === 'Salon'
+   //    );
+   //    return id;
+   // });
+
+   const [duration, setDuration] = useState(25);
+   // const [duration, setDuration] = useState(() => {
+   //    const { id } = durations.find((duration) => duration.time_interval === 0);
+   //    return id;
+   // });
 
    useEffect(() => {
       fetch('/authorized_user').then((res) => {
@@ -80,9 +93,9 @@ function Main() {
       setCurrentUser(user);
    };
 
-   const handleDurations = (duration) => {
-      setDurations(duration);
-   };
+   // const handleDurations = (duration) => {
+   //    setDurations(duration);
+   // };
 
    // GENERIC DELETE FUNCTIONS
    const deleteRecord = (arr, deletedElement, setArr) => {
@@ -119,13 +132,13 @@ function Main() {
    }
    // end GENERIC SETTER
 
-   const handleServices = (service) => {
-      setServices(service);
-   };
+   // const handleServices = (service) => {
+   //    setServices(service);
+   // };
 
-   const handleServiceTypes = (serviceType) => {
-      setServiceTypes(serviceType);
-   };
+   // const handleServiceTypes = (serviceType) => {
+   //    setServiceTypes(serviceType);
+   // };
 
    const handleCart = (cart) => {
       setCart(cart);
@@ -187,6 +200,14 @@ function Main() {
       }
    };
 
+   const serviceTypeOptions = serviceTypes.map((serviceType) => {
+      return { label: serviceType.service_type_name, value: serviceType.id };
+   });
+
+   const durationOptions = durations.map((duration) => {
+      return { label: duration.time_interval, value: duration.id };
+   });
+
    if (!currentUser) return <Login handleCurrentUser={handleCurrentUser} />;
 
    // TODO: WHEN PUSHING TO HEROKU, CHANGE TO NOT ADMIN TO ALLOW ADMIN TO ADD SERVICE TYPES, DURATIONS, & SERVICES
@@ -216,6 +237,12 @@ function Main() {
                      title="duration"
                      endpoint="durations"
                      open={true}
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     durations={duration}
+                     setDurations={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   />
@@ -233,6 +260,12 @@ function Main() {
                   title="duration"
                   currentUser={currentUser}
                   open={open}
+                  serviceType={serviceType}
+                  setServiceType={setServiceType}
+                  durations={duration}
+                  setDurations={setDuration}
+                  serviceTypeOptions={serviceTypeOptions}
+                  durationOptions={durationOptions}
                   handleClickOpen={handleClickOpen}
                   handleClose={handleClose}
                >
@@ -240,12 +273,7 @@ function Main() {
                      variant="outlined"
                      size="small"
                      onClick={(Id) => {
-                        handleDelete(
-                           Id,
-                           'durations',
-                           durations,
-                           handleDurations
-                        );
+                        handleDelete(Id, 'durations', durations, setDurations);
                      }}
                   >
                      Delete
@@ -264,6 +292,12 @@ function Main() {
                      title="service type"
                      endpoint="service_types"
                      open={true}
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     durations={duration}
+                     setDurations={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   />
@@ -281,6 +315,12 @@ function Main() {
                   title="service type"
                   currentUser={currentUser}
                   open={open}
+                  serviceType={serviceType}
+                  setServiceType={setServiceType}
+                  durations={duration}
+                  setDurations={setDuration}
+                  serviceTypeOptions={serviceTypeOptions}
+                  durationOptions={durationOptions}
                   handleClickOpen={handleClickOpen}
                   handleClose={handleClose}
                >
@@ -292,7 +332,7 @@ function Main() {
                            Id,
                            'service_types',
                            serviceTypes,
-                           handleServiceTypes
+                           setServiceTypes
                         );
                      }}
                   >
@@ -302,11 +342,39 @@ function Main() {
             </Route>
 
             <Route exact path="/services/new">
-               <NewServiceForm
+               {/* <NewServiceForm
                   addService={addService}
                   durations={durations}
                   serviceTypes={serviceTypes}
-               />
+               /> */}
+               {currentUser.is_admin && (
+                  <FormDialog
+                     arrName="Services"
+                     arr={services}
+                     addArr={addArr}
+                     setArr={setServices}
+                     // by default, make a new service be Salon type with 0 minutes for UI
+                     initialData={{
+                        name: '',
+                        description: '',
+                        price: '',
+                        image_url: '',
+                        service_type_id: '5',
+                        duration_id: '25',
+                     }}
+                     title="service"
+                     endpoint="services"
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     durations={duration}
+                     setDurations={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
+                     open={true}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  />
+               )}
             </Route>
 
             <Route path="/services">
@@ -327,11 +395,18 @@ function Main() {
                   arrName="Services"
                   arr={services}
                   addArr={addService}
+                  setArr={setServices}
                   initialData={{ service_type_name: '' }}
                   endpoint="services"
                   title="services"
                   currentUser={currentUser}
                   open={open}
+                  serviceType={serviceType}
+                  setServiceType={setServiceType}
+                  durations={duration}
+                  setDurations={setDuration}
+                  serviceTypeOptions={serviceTypeOptions}
+                  durationOptions={durationOptions}
                   handleClickOpen={handleClickOpen}
                   handleClose={handleClose}
                >
@@ -341,7 +416,9 @@ function Main() {
                            variant="outlined"
                            size="small"
                            onClick={(Id) => {
-                              handleDelete(Id, 'services', services);
+                              console.log(
+                                 Id.target.parentElement.parentElement.id
+                              );
                            }}
                         >
                            Edit
@@ -350,7 +427,12 @@ function Main() {
                            variant="outlined"
                            size="small"
                            onClick={(Id) => {
-                              handleDelete(Id, 'services', services);
+                              handleDelete(
+                                 Id,
+                                 'services',
+                                 services,
+                                 setServices
+                              );
                            }}
                         >
                            Delete

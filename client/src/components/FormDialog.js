@@ -31,7 +31,7 @@ export default function FormDialog({
 
    const { formData, handleChange } = useForm(initialData);
 
-   const Dropdown = ({ label, value, options, handleChange, shoeTypes }) => {
+   const Dropdown = ({ label, value, options, handleChange }) => {
       return (
          <label>
             <DialogContentText>{label}</DialogContentText>
@@ -47,6 +47,8 @@ export default function FormDialog({
    };
 
    const initialDataKeys = Object.keys(initialData);
+
+   const initialDataEntries = Object.entries(initialData);
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -81,7 +83,7 @@ export default function FormDialog({
          });
       }
 
-      // validations
+      // Form Data Validations
       initialDataKeys.forEach((objKey) => {
          if (objKey === 'time_interval') {
             const time_intervalInt = parseInt(formData.time_interval);
@@ -107,35 +109,43 @@ export default function FormDialog({
    };
 
    // Input Element(s)
-   const inputEl = initialDataKeys.map((objKey) => (
-      <Box key={objKey} mb={2}>
+   const inputElEntries = initialDataEntries.map(([k, v]) => (
+      <Box key={k} mb={2}>
+         key={k} value={v}
          <DialogContentText>
-            {objKey !== 'service_type_id' && objKey !== 'duration_id' && objKey}
+            {k !== 'service_type_id' &&
+               k !== 'duration_id' &&
+               k !== 'time_interval' &&
+               k !== 'service_type_name' &&
+               k.replace('_', ' ')}
          </DialogContentText>
-
-         {(objKey === 'service_type_id' && (
-            <Dropdown
-               label="Select service type"
-               options={serviceTypeOptions}
-               value={serviceType}
-               handleChange={setServiceType}
-            />
-         )) ||
-            (objKey === 'duration_id' && (
+         {(k === 'service_type_id' && v === 3 && (
+            <>
+               <Dropdown
+                  label="Select service type"
+                  options={serviceTypeOptions}
+                  value={serviceType}
+                  handleChange={setServiceType}
+               />
                <Dropdown
                   label="Select duration (minutes)"
                   options={durationOptions}
                   value={duration}
                   handleChange={setDuration}
                />
-            )) || (
-               <TextField
-                  name={objKey}
-                  id={objKey}
-                  value={formData[objKey]}
-                  onChange={handleChange}
+            </>
+         )) ||
+            (k === 'service_type_id' && v !== 3 && (
+               <Dropdown
+                  label="Select service type"
+                  options={serviceTypeOptions}
+                  value={serviceType}
+                  handleChange={setServiceType}
                />
-            )}
+            )) ||
+            (k !== 'duration_id' && (
+               <TextField name={k} id={k} value={v} onChange={handleChange} />
+            ))}
       </Box>
    ));
 
@@ -143,21 +153,7 @@ export default function FormDialog({
       <div>
          <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add {title}</DialogTitle>
-            <DialogContent>
-               {initialDataKeys.length === 1 ? (
-                  <Box key={initialDataKeys[0]}>
-                     <DialogContentText>Enter a {title}</DialogContentText>
-                     <TextField
-                        name={initialDataKeys[0]}
-                        id={initialDataKeys[0]}
-                        value={formData[initialDataKeys[0]]}
-                        onChange={handleChange}
-                     />
-                  </Box>
-               ) : (
-                  inputEl
-               )}
-            </DialogContent>
+            <DialogContent>{inputElEntries}</DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>
                <Button onClick={handleSubmit}>Add {title}</Button>

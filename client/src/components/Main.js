@@ -93,10 +93,6 @@ function Main() {
       setCurrentUser(user);
    };
 
-   // const handleDurations = (duration) => {
-   //    setDurations(duration);
-   // };
-
    // GENERIC DELETE FUNCTIONS
    const deleteRecord = (arr, deletedElement, setArr) => {
       const updatedArr = arr.filter(
@@ -126,19 +122,11 @@ function Main() {
    };
    // end GENERIC DELETE FUNCTIONS
 
-   // GENERIC SETTER
+   // GENERIC Add to Array
    function addArr(arr, newObj, setArr) {
       setArr((arr) => [...arr, newObj]);
    }
-   // end GENERIC SETTER
-
-   // const handleServices = (service) => {
-   //    setServices(service);
-   // };
-
-   // const handleServiceTypes = (serviceType) => {
-   //    setServiceTypes(serviceType);
-   // };
+   // end GENERIC Add to Array
 
    const handleCart = (cart) => {
       setCart(cart);
@@ -147,14 +135,6 @@ function Main() {
    function addCartItem(newServiceItem) {
       setCart((cart) => [...cart, newServiceItem]);
    }
-
-   // function addDuration(newDuration) {
-   //    setDurations((durations) => [...durations, newDuration]);
-   // }
-
-   // function addServiceType(newServiceType) {
-   //    setServiceTypes((serviceTypes) => [...serviceTypes, newServiceType]);
-   // }
 
    function addService(newService) {
       setServices((services) => [...services, newService]);
@@ -359,8 +339,8 @@ function Main() {
                         description: '',
                         price: '',
                         image_url: '',
-                        service_type_id: '5',
-                        duration_id: '25',
+                        service_type_id: `${serviceType}`,
+                        duration_id: `${duration}`,
                      }}
                      title="service"
                      endpoint="services"

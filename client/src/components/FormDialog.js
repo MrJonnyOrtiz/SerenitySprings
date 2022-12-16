@@ -10,13 +10,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 export default function FormDialog({
-   serviceType,
    initialData,
    arr,
    arrName,
    addArr,
    setArr,
    open,
+   serviceType,
    setServiceType,
    duration,
    setDuration,
@@ -50,60 +50,90 @@ export default function FormDialog({
 
    const initialDataEntries = Object.entries(initialData);
 
+   const handleDropDownChange = (e, setArr) => {
+      setArr(e.target.value);
+   };
+
+   const postData = (dataObj, objKey) => {
+      const configObj = {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ ...dataObj }),
+      };
+
+      fetch(`/${endpoint}`, configObj).then((res) => {
+         if (res.ok) {
+            res.json().then((newPostedObj) => {
+               addArr(arr, newPostedObj, setArr);
+
+               //TODO: - refactor success notification
+               alert(`Data added`);
+
+               history.push(`/${arrName.toLowerCase()}`);
+            });
+         } else {
+            res.json().then((data) => {
+               //TODO: - refactor error notification
+               data.errors.time_interval[0]
+                  ? alert(`${dataObj[objKey]} ${data.errors.time_interval[0]}`)
+                  : alert(JSON.stringify(data.errors));
+            });
+         }
+      });
+   };
+
    const handleSubmit = (e) => {
       e.preventDefault();
 
-      function postData(dataObj, objKey) {
-         const configObj = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...dataObj }),
-         };
-
-         fetch(`/${endpoint}`, configObj).then((res) => {
-            if (res.ok) {
-               res.json().then((newPostedObj) => {
-                  addArr(arr, newPostedObj, setArr);
-
-                  //TODO - refactor success notification
-                  alert(`${dataObj[objKey]} added`);
-
-                  history.push(`/${arrName.toLowerCase()}`);
-               });
-            } else {
-               res.json().then((data) => {
-                  //TODO - refactor error notification
-                  data.errors.time_interval[0]
-                     ? alert(
-                          `${dataObj[objKey]} ${data.errors.time_interval[0]}`
-                       )
-                     : alert(JSON.stringify(data.errors));
-               });
-            }
-         });
-      }
-
-      // Form Data Validations
+      // Form data validations & post
       initialDataKeys.forEach((objKey) => {
-         if (objKey === 'time_interval') {
-            const time_intervalInt = parseInt(formData.time_interval);
-            if (time_intervalInt < 0) {
-               //TODO - refactor error notification
-               alert(
-                  `Time interval entered ${time_intervalInt} cannot be negative`
-               );
-            } else if (!(time_intervalInt % 15 === 0)) {
-               //TODO - refactor error notification
-               alert(
-                  `Time interval entered ${time_intervalInt} must be in 15 minute increments`
-               );
-            } else {
-               postData(formData, objKey);
-            }
-         } else {
-            // objKey is not time_interval
-            // TODO - add validation for price
-            postData(formData, objKey);
+         switch (objKey) {
+            case 'time_interval':
+               const timeIntervalInt = parseInt(formData[objKey]);
+               if (timeIntervalInt < 0) {
+                  //TODO: - refactor error notification
+                  alert(
+                     `Time interval entered ${timeIntervalInt} cannot be negative.`
+                  );
+               } else if (!(timeIntervalInt % 15 === 0)) {
+                  //TODO: - refactor error notification
+                  alert(`${timeIntervalInt} not in 15 minute increments.`);
+               } else {
+                  postData(formData, objKey);
+               }
+               break;
+
+            case 'service_type_name':
+               // console.log(typeof formData[objKey], objKey);
+
+               if (
+                  objKey !== 'Spa' ||
+                  objKey !== 'Salon' ||
+                  objKey !== 'Products'
+               ) {
+                  alert(`${formData[objKey]} not a valid service.`);
+               } else {
+                  postData(formData, objKey);
+               }
+
+               break;
+
+            case 'price':
+               const priceStr = formData[objKey];
+               priceStr.includes('.') &&
+                  priceStr.split('.')[1].length > 2 &&
+                  alert(
+                     `Price entered ${priceStr} cannot have more than 2 decimal places`
+                  );
+               ((priceStr.includes('.') &&
+                  priceStr.split('.')[1].length <= 2) ||
+                  !priceStr.includes('.')) &&
+                  postData(formData, objKey);
+
+               break;
+
+            default:
+               break;
          }
       });
    };
@@ -111,7 +141,6 @@ export default function FormDialog({
    // Input Element(s)
    const inputElEntries = initialDataEntries.map(([k, v]) => (
       <Box key={k} mb={2}>
-         key={k} value={v}
          <DialogContentText>
             {k !== 'service_type_id' &&
                k !== 'duration_id' &&
@@ -119,32 +148,22 @@ export default function FormDialog({
                k !== 'service_type_name' &&
                k.replace('_', ' ')}
          </DialogContentText>
-         {(k === 'service_type_id' && v === 3 && (
-            <>
-               <Dropdown
-                  label="Select service type"
-                  options={serviceTypeOptions}
-                  value={serviceType}
-                  handleChange={setServiceType}
-               />
-               <Dropdown
-                  label="Select duration (minutes)"
-                  options={durationOptions}
-                  value={duration}
-                  handleChange={setDuration}
-               />
-            </>
+
+         {(k === 'service_type_id' && (
+            <Dropdown
+               label="choose a service type"
+               options={serviceTypeOptions}
+               value={serviceType}
+               handleChange={(e) => handleDropDownChange(e, setServiceType)}
+            />
          )) ||
-            (k === 'service_type_id' && v !== 3 && (
-               <Dropdown
-                  label="Select service type"
-                  options={serviceTypeOptions}
-                  value={serviceType}
-                  handleChange={setServiceType}
-               />
-            )) ||
             (k !== 'duration_id' && (
-               <TextField name={k} id={k} value={v} onChange={handleChange} />
+               <TextField
+                  name={k}
+                  id={k}
+                  value={formData[k]} // NOTE: changing this to v will cause re-render
+                  onChange={handleChange}
+               />
             ))}
       </Box>
    ));
@@ -153,7 +172,17 @@ export default function FormDialog({
       <div>
          <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add {title}</DialogTitle>
-            <DialogContent>{inputElEntries}</DialogContent>
+            <DialogContent>
+               {inputElEntries}{' '}
+               {serviceType === '3' && (
+                  <Dropdown
+                     label="choose a duration (minutes)"
+                     options={durationOptions}
+                     value={duration}
+                     handleChange={(e) => handleDropDownChange(e, setDuration)}
+                  />
+               )}
+            </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>
                <Button onClick={handleSubmit}>Add {title}</Button>

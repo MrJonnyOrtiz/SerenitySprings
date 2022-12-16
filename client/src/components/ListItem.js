@@ -61,7 +61,6 @@ function ListItem({ item, children, currentUser, title }) {
             {item.image_url && (
                <CardMedia
                   component="img"
-                  height="140"
                   image={item.image_url}
                   alt={item.description}
                />

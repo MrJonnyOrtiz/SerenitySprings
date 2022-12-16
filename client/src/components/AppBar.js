@@ -154,7 +154,9 @@ const ResponsiveAppBar = ({
                                 >
                                    {/* {page} */}
                                    {page === 'favorites'
-                                      ? `favorites (${currentUser.favorites.length})`
+                                      ? (currentUser.favorites.length !== 0 &&
+                                           `favorites (${currentUser.favorites.length})`) ||
+                                        'favorites'
                                       : page}
                                 </Button>
                              </MenuItem>
@@ -237,7 +239,9 @@ const ResponsiveAppBar = ({
                              }}
                           >
                              {page === 'favorites'
-                                ? `favorites (${currentUser.favorites.length})`
+                                ? (currentUser.favorites.length &&
+                                     `favorites (${currentUser.favorites.length})`) ||
+                                  'favorites'
                                 : page}
                           </Link>
                        ))}

@@ -5,40 +5,27 @@ import Footer from './Footer';
 import Login from './Login';
 import Welcome from '../pages/Welcome';
 import FormDialog from './FormDialog';
-
 import List from './List';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-
-// import ServicesList from '../pages/ServicesList';
-// import NewServiceForm from './service/NewServiceForm';
-import FavoritesList from '../pages/FavoritesList';
 import Booking from '../pages/Booking';
 import CartList from '../pages/CartList';
 import About from '../pages/About';
 
 function Main() {
-   const [currentUser, setCurrentUser] = useState(null);
    const [durations, setDurations] = useState([]);
    const [serviceTypes, setServiceTypes] = useState([]);
+   const [currentUser, setCurrentUser] = useState(null);
    const [services, setServices] = useState([]);
    const [cart, setCart] = useState([]);
    const [open, setOpen] = useState(false);
-   const [serviceType, setServiceType] = useState(5);
-   // const [serviceType, setServiceType] = useState(() => {
-   //    const { id } = serviceTypes.find(
-   //       (service_type) => service_type.service_type_name === 'Salon'
-   //    );
-   //    return id;
-   // });
+   const [serviceType, setServiceType] = useState(5); // hardcoded to Salon
+   // const [serviceType, setServiceType] = useState(0);
 
-   const [duration, setDuration] = useState(25);
-   // const [duration, setDuration] = useState(() => {
-   //    const { id } = durations.find((duration) => duration.time_interval === 0);
-   //    return id;
-   // });
+   const [duration, setDuration] = useState(25); // hardcoded duration to 0 minutes
+   // const [duration, setDuration] = useState(0);
 
    useEffect(() => {
       fetch('/authorized_user').then((res) => {
@@ -175,7 +162,32 @@ function Main() {
       }
    };
 
-   // TODO: refactor to 1 generic dropdown options
+   const handleDeleteFave = async (Id) => {
+      const id = +Id.target.parentElement.parentElement.id;
+      try {
+         const response = await fetch(`/favorites/${id}`, {
+            method: 'DELETE',
+         });
+         if (response.ok) {
+            response.json().then((deletedFave) => {
+               fetch(`/users/${currentUser.id}`).then((response) => {
+                  if (response.ok)
+                     response
+                        .json()
+                        .then((updatedUser) => handleCurrentUser(updatedUser));
+               });
+            });
+         } else {
+            const { errors } = await response.json();
+            throw new Error(
+               `Problem with delete: ${errors} ${response.status}: ${response.statusText}`
+            );
+         }
+      } catch (error) {
+         alert(error);
+      }
+   };
+
    const serviceTypeOptions = serviceTypes.map((serviceType) => {
       return { label: serviceType.service_type_name, value: serviceType.id };
    });
@@ -183,7 +195,20 @@ function Main() {
    const durationOptions = durations.map((duration) => {
       return { label: duration.time_interval, value: duration.id };
    });
-   // end refactor to 1 generic dropdown options
+
+   // TODO: initialize service type id & duration id to avoid hardcoding
+
+   // const initServiceTypeId = setServiceType(() => {
+   //    const { id } = serviceTypes.find(
+   //       (service_type) => service_type.service_type_name === 'Salon'
+   //    );
+   //    return id;
+   // });
+
+   // const initDurationId = setDuration(() => {
+   //    const { id } = durations.find((duration) => duration.time_interval === 0);
+   //    return id;
+   // });
 
    if (!currentUser) return <Login handleCurrentUser={handleCurrentUser} />;
 
@@ -509,10 +534,68 @@ function Main() {
             </Route>
 
             <Route path="/favorites">
-               <FavoritesList
-                  currentUser={currentUser}
-                  handleCurrentUser={handleCurrentUser}
-               />
+               {!currentUser.is_admin ? (
+                  <List
+                     arrName="Favorites"
+                     arr={currentUser.favorites}
+                     addArr={addArr}
+                     setArr={handleCurrentUser}
+                     initialData={{
+                        wishlist_id: 0,
+                        service_id: 0,
+                     }}
+                     endpoint="favorites"
+                     title="favorite"
+                     currentUser={currentUser}
+                     open={open}
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     duration={duration}
+                     setDuration={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  >
+                     <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={(Id) => {
+                           handleDeleteFave(
+                              Id,
+                              'favorite',
+                              currentUser.favorites,
+                              handleCurrentUser
+                           );
+                        }}
+                     >
+                        UnFave
+                     </Button>
+                     <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={(Id) => {
+                           addCartItem(Id, 'services', services);
+                        }}
+                     >
+                        Add to Cart
+                     </Button>
+                  </List>
+               ) : (
+                  <Box
+                     mt={2}
+                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                     }}
+                  >
+                     <Alert severity="error" variant="outlined">
+                        <AlertTitle>Not Authorized</AlertTitle>You are not
+                        authorized to this path.
+                     </Alert>
+                  </Box>
+               )}
             </Route>
 
             <Route path="/bookings">

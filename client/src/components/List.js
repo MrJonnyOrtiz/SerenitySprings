@@ -18,10 +18,10 @@ function List({
    endpoint,
    currentUser,
    open,
-   serviceTypes,
-   setServiceTypes,
-   durations,
-   setDurations,
+   serviceType,
+   setServiceType,
+   duration,
+   setDuration,
    serviceTypeOptions,
    durationOptions,
    handleClickOpen,
@@ -70,12 +70,14 @@ function List({
             setArr={setArr}
             initialData={initialData}
             open={open}
-            serviceTypes={serviceTypes}
-            setServiceTypes={setServiceTypes}
-            durations={durations}
-            setDurations={setDurations}
+            serviceType={serviceType}
+            setServiceType={setServiceType}
+            duration={duration}
+            setDuration={setDuration}
             handleClickOpen={handleClickOpen}
             handleClose={handleClose}
+            serviceTypeOptions={serviceTypeOptions}
+            durationOptions={durationOptions}
             title={title}
             endpoint={endpoint}
          />

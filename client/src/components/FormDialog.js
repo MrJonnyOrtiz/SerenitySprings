@@ -67,7 +67,7 @@ export default function FormDialog({
                addArr(arr, newPostedObj, setArr);
 
                //TODO: - refactor success notification
-               alert(`Data added`);
+               alert(`${title} added`);
 
                history.push(`/${arrName.toLowerCase()}`);
             });

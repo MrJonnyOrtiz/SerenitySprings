@@ -94,11 +94,11 @@ function Main() {
    };
 
    // GENERIC DELETE FUNCTIONS
-   const deleteRecord = (arr, deletedElement, setArr) => {
+   const deleteRecord = (arr, deletedElement, handleArr) => {
       const updatedArr = arr.filter(
          (record) => record.id !== deletedElement.id
       );
-      setArr(updatedArr);
+      handleArr(updatedArr);
    };
 
    const handleDelete = async (Id, endpoint, arr, handleArr) => {
@@ -123,22 +123,18 @@ function Main() {
    // end GENERIC DELETE FUNCTIONS
 
    // GENERIC Add to Array
-   function addArr(arr, newObj, setArr) {
+   const addArr = (arr, newObj, setArr) => {
       setArr((arr) => [...arr, newObj]);
-   }
+   };
    // end GENERIC Add to Array
 
    const handleCart = (cart) => {
       setCart(cart);
    };
 
-   function addCartItem(newServiceItem) {
+   const addCartItem = (newServiceItem) => {
       setCart((cart) => [...cart, newServiceItem]);
-   }
-
-   function addService(newService) {
-      setServices((services) => [...services, newService]);
-   }
+   };
 
    function updateService(updatedService) {
       const updatedServices = services.map((ogService) =>
@@ -180,6 +176,7 @@ function Main() {
       }
    };
 
+   // TODO: refactor to 1 generic dropdown options
    const serviceTypeOptions = serviceTypes.map((serviceType) => {
       return { label: serviceType.service_type_name, value: serviceType.id };
    });
@@ -187,6 +184,7 @@ function Main() {
    const durationOptions = durations.map((duration) => {
       return { label: duration.time_interval, value: duration.id };
    });
+   // end refactor to 1 generic dropdown options
 
    if (!currentUser) return <Login handleCurrentUser={handleCurrentUser} />;
 
@@ -242,8 +240,8 @@ function Main() {
                   open={open}
                   serviceType={serviceType}
                   setServiceType={setServiceType}
-                  durations={duration}
-                  setDurations={setDuration}
+                  duration={duration}
+                  setDuration={setDuration}
                   serviceTypeOptions={serviceTypeOptions}
                   durationOptions={durationOptions}
                   handleClickOpen={handleClickOpen}
@@ -322,11 +320,6 @@ function Main() {
             </Route>
 
             <Route exact path="/services/new">
-               {/* <NewServiceForm
-                  addService={addService}
-                  durations={durations}
-                  serviceTypes={serviceTypes}
-               /> */}
                {currentUser.is_admin && (
                   <FormDialog
                      arrName="Services"
@@ -358,33 +351,27 @@ function Main() {
             </Route>
 
             <Route path="/services">
-               {/* <ServicesList
-                  currentUser={currentUser}
-                  services={services}
-                  addService={addService}
-                  updateService={updateService}
-                  handleServices={handleServices}
-                  durations={durations}
-                  serviceTypes={serviceTypes}
-                  cart={cart}
-                  addCartItem={addCartItem}
-                  handleFave={handleFave}
-                  handleCart={handleCart}
-               /> */}
                <List
                   arrName="Services"
                   arr={services}
-                  addArr={addService}
+                  addArr={addArr}
                   setArr={setServices}
-                  initialData={{ service_type_name: '' }}
+                  initialData={{
+                     name: '',
+                     description: '',
+                     price: '',
+                     image_url: '',
+                     service_type_id: `${serviceType}`,
+                     duration_id: `${duration}`,
+                  }}
                   endpoint="services"
-                  title="services"
+                  title="service"
                   currentUser={currentUser}
                   open={open}
                   serviceType={serviceType}
                   setServiceType={setServiceType}
-                  durations={duration}
-                  setDurations={setDuration}
+                  duration={duration}
+                  setDuration={setDuration}
                   serviceTypeOptions={serviceTypeOptions}
                   durationOptions={durationOptions}
                   handleClickOpen={handleClickOpen}

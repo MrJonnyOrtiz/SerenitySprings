@@ -8,6 +8,9 @@ import FormDialog from './FormDialog';
 
 import List from './List';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 // import ServicesList from '../pages/ServicesList';
 // import NewServiceForm from './service/NewServiceForm';
@@ -93,7 +96,6 @@ function Main() {
       setCurrentUser(user);
    };
 
-   // GENERIC DELETE FUNCTIONS
    const deleteRecord = (arr, deletedElement, handleArr) => {
       const updatedArr = arr.filter(
          (record) => record.id !== deletedElement.id
@@ -120,13 +122,10 @@ function Main() {
          alert(error);
       }
    };
-   // end GENERIC DELETE FUNCTIONS
 
-   // GENERIC Add to Array
    const addArr = (arr, newObj, setArr) => {
       setArr((arr) => [...arr, newObj]);
    };
-   // end GENERIC Add to Array
 
    const handleCart = (cart) => {
       setCart(cart);
@@ -194,7 +193,6 @@ function Main() {
    //       return <h2>Loading..</h2>;
    //    }
    // }
-
    return (
       <div>
          <AppBar
@@ -205,7 +203,7 @@ function Main() {
          />
          <Switch>
             <Route path="/durations/new">
-               {currentUser.is_admin && (
+               {currentUser.is_admin ? (
                   <FormDialog
                      arrName="Durations"
                      arr={durations}
@@ -224,43 +222,78 @@ function Main() {
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   />
+               ) : (
+                  <Box
+                     mt={2}
+                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                     }}
+                  >
+                     <Alert severity="error" variant="outlined">
+                        <AlertTitle>Not Authorized</AlertTitle>You are not
+                        authorized to this path.
+                     </Alert>
+                  </Box>
                )}
             </Route>
 
             <Route path="/durations">
-               <List
-                  arrName="Durations"
-                  arr={durations}
-                  addArr={addArr}
-                  setArr={setDurations}
-                  initialData={{ time_interval: '' }}
-                  endpoint="durations"
-                  title="duration"
-                  currentUser={currentUser}
-                  open={open}
-                  serviceType={serviceType}
-                  setServiceType={setServiceType}
-                  duration={duration}
-                  setDuration={setDuration}
-                  serviceTypeOptions={serviceTypeOptions}
-                  durationOptions={durationOptions}
-                  handleClickOpen={handleClickOpen}
-                  handleClose={handleClose}
-               >
-                  <Button
-                     variant="outlined"
-                     size="small"
-                     onClick={(Id) => {
-                        handleDelete(Id, 'durations', durations, setDurations);
+               {currentUser.is_admin ? (
+                  <List
+                     arrName="Durations"
+                     arr={durations}
+                     addArr={addArr}
+                     setArr={setDurations}
+                     initialData={{ time_interval: '' }}
+                     endpoint="durations"
+                     title="duration"
+                     currentUser={currentUser}
+                     open={open}
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     duration={duration}
+                     setDuration={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  >
+                     <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={(Id) => {
+                           handleDelete(
+                              Id,
+                              'durations',
+                              durations,
+                              setDurations
+                           );
+                        }}
+                     >
+                        Delete
+                     </Button>
+                  </List>
+               ) : (
+                  <Box
+                     mt={2}
+                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                      }}
                   >
-                     Delete
-                  </Button>
-               </List>
+                     <Alert severity="error" variant="outlined">
+                        <AlertTitle>Not Authorized</AlertTitle>You are not
+                        authorized to this path.
+                     </Alert>
+                  </Box>
+               )}
             </Route>
 
             <Route path="/service_types/new">
-               {currentUser.is_admin && (
+               {currentUser.is_admin ? (
                   <FormDialog
                      arrName="Service Types"
                      arr={serviceTypes}
@@ -279,48 +312,78 @@ function Main() {
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   />
+               ) : (
+                  <Box
+                     mt={2}
+                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                     }}
+                  >
+                     <Alert severity="error" variant="outlined">
+                        <AlertTitle>Not Authorized</AlertTitle>You are not
+                        authorized to this path.
+                     </Alert>
+                  </Box>
                )}
             </Route>
 
             <Route path="/service_types">
-               <List
-                  arrName="Service Types"
-                  arr={serviceTypes}
-                  addArr={addArr}
-                  setArr={setServiceTypes}
-                  initialData={{ service_type_name: '' }}
-                  endpoint="service_types"
-                  title="service type"
-                  currentUser={currentUser}
-                  open={open}
-                  serviceType={serviceType}
-                  setServiceType={setServiceType}
-                  durations={duration}
-                  setDurations={setDuration}
-                  serviceTypeOptions={serviceTypeOptions}
-                  durationOptions={durationOptions}
-                  handleClickOpen={handleClickOpen}
-                  handleClose={handleClose}
-               >
-                  <Button
-                     variant="outlined"
-                     size="small"
-                     onClick={(Id) => {
-                        handleDelete(
-                           Id,
-                           'service_types',
-                           serviceTypes,
-                           setServiceTypes
-                        );
+               {currentUser.is_admin ? (
+                  <List
+                     arrName="Service Types"
+                     arr={serviceTypes}
+                     addArr={addArr}
+                     setArr={setServiceTypes}
+                     initialData={{ service_type_name: '' }}
+                     endpoint="service_types"
+                     title="service type"
+                     currentUser={currentUser}
+                     open={open}
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     durations={duration}
+                     setDurations={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  >
+                     <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={(Id) => {
+                           handleDelete(
+                              Id,
+                              'service_types',
+                              serviceTypes,
+                              setServiceTypes
+                           );
+                        }}
+                     >
+                        Delete
+                     </Button>
+                  </List>
+               ) : (
+                  <Box
+                     mt={2}
+                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                      }}
                   >
-                     Delete
-                  </Button>
-               </List>
+                     <Alert severity="error" variant="outlined">
+                        <AlertTitle>Not Authorized</AlertTitle>You are not
+                        authorized to this path.
+                     </Alert>
+                  </Box>
+               )}
             </Route>
 
             <Route exact path="/services/new">
-               {currentUser.is_admin && (
+               {currentUser.is_admin ? (
                   <FormDialog
                      arrName="Services"
                      arr={services}
@@ -347,6 +410,20 @@ function Main() {
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   />
+               ) : (
+                  <Box
+                     mt={2}
+                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                     }}
+                  >
+                     <Alert severity="error" variant="outlined">
+                        <AlertTitle>Not Authorized</AlertTitle>You are not
+                        authorized to this path.
+                     </Alert>
+                  </Box>
                )}
             </Route>
 

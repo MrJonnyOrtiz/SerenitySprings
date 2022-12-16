@@ -69,7 +69,7 @@ export default function FormDialog({
                //TODO: - refactor success notification
                alert(`${title} added`);
 
-               history.push(`/${arrName.toLowerCase()}`);
+               history.push(`/${arrName.toLowerCase().replace(' ', '_')}`);
             });
          } else {
             res.json().then((data) => {
@@ -104,16 +104,12 @@ export default function FormDialog({
                break;
 
             case 'service_type_name':
-               // console.log(typeof formData[objKey], objKey);
+               const validServiceTypes = ['Spa', 'Salon', 'Products'];
 
-               if (
-                  objKey !== 'Spa' ||
-                  objKey !== 'Salon' ||
-                  objKey !== 'Products'
-               ) {
-                  alert(`${formData[objKey]} not a valid service.`);
-               } else {
+               if (validServiceTypes.includes(formData[objKey])) {
                   postData(formData, objKey);
+               } else {
+                  alert(`${formData[objKey]} not a valid service.`);
                }
 
                break;

@@ -24,7 +24,7 @@ class ServiceTypesController < ApplicationController
     def destroy
         service_type = ServiceType.find(params[:id])
         service_type.destroy
-        head :no_content
+        render json: service_type, status: :ok
     end
 
     private

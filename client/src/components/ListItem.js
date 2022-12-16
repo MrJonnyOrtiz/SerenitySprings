@@ -7,75 +7,52 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-function ListItem({ item, children, currentUser }) {
-   // cycle through the item's keys and create the card's image if present and content
-
-   const adminCardTitleNames = [
-      'name',
-      'first_name',
-      'last_name',
-      'time_interval',
-      'service_type_name',
-   ];
-   const userCardTitleNames = ['name'];
-
+function ListItem({ item, children, currentUser, title }) {
    const itemEntries = Object.entries(item);
 
    const itemEl = itemEntries.map(([k, v]) => {
+      // guard clause to not show an item's ids or image url
       if (
          k === 'id' ||
          k === 'image_url' ||
          k === 'service_type_id' ||
-         k === 'duration_id'
+         k === 'duration_id' ||
+         k === 'service_id' ||
+         k === 'wishlist_id'
       )
          return false;
 
-      if (currentUser.is_admin) {
-         if (adminCardTitleNames.includes(k)) {
-            // key is a title
-            return (
-               <Box key={k}>
-                  <Typography gutterBottom variant="h5" component="div">
-                     {k === 'time_interval' ? `${v} minutes` : v}
-                  </Typography>
-               </Box>
-            );
-         } else {
-            // key is content
-            return (
-               <Box key={k}>
-                  <Typography variant="body2" color="text.secondary">
-                     {(k === 'price' && `$ ${v}`) ||
-                        (k === 'service_type_name' && `${v} service`) ||
-                        (k === 'description' && `Service details: ${v}`)}
-                  </Typography>
-               </Box>
-            );
-         }
-      } else {
-         // is the key a card title name, or card content
-         if (userCardTitleNames.includes(k)) {
-            // key is a title
-            return (
+      // if title = service or fave or cart, style key name as a title
+      // or
+      // if title = duration or service type, style key name time interval and service type name as titles
+      // style remaining keys as a subtitles and show time interval iff title is not service type and service type name = Spa
+
+      return (
+         ((title === 'service' || title === 'favorite' || title === 'cart') &&
+            k === 'name' && (
                <Box key={k}>
                   <Typography gutterBottom variant="h5" component="div">
                      {v}
                   </Typography>
                </Box>
-            );
-         } else {
-            // key is content
-            return (
+            )) ||
+         ((title === 'duration' || title === 'service type') &&
+            (k === 'time_interval' || k === 'service_type_name') && (
                <Box key={k}>
-                  <Typography variant="body2" color="text.secondary">
-                     {(k === 'price' && `$ ${v}`) ||
-                        (k === 'service_type_name' && `${v} service`) ||
-                        (k === 'description' && `Service details: ${v}`)}
+                  <Typography gutterBottom variant="h5" component="div">
+                     {k === 'time_interval' ? `${v} minutes` : v}
                   </Typography>
                </Box>
-            );
-         }
-      }
+            )) || (
+            <Box key={k}>
+               <Typography variant="h6" color="text.secondary">
+                  {(k === 'price' && `Price: $ ${v}`) ||
+                     (k === 'service_type_name' && `Service type: ${v}`) ||
+                     (k === 'description' && `Service details: ${v}`)}
+               </Typography>
+            </Box>
+         )
+      );
    });
 
    return (
@@ -91,11 +68,12 @@ function ListItem({ item, children, currentUser }) {
             )}
             <CardContent>
                {itemEl}
-               {!currentUser.is_admin && item.service_type_name === 'Spa' && (
-                  <Typography variant="body2" color="text.secondary">
-                     {item.time_interval} minutes
-                  </Typography>
-               )}
+               {title !== 'service type' &&
+                  item.service_type_name === 'Spa' && (
+                     <Typography variant="body2" color="text.secondary">
+                        Duration: {item.time_interval} minutes
+                     </Typography>
+                  )}
             </CardContent>
             <CardActions>
                {children}

@@ -27,6 +27,12 @@ function ListItem({ item, children, currentUser, title }) {
       // if title = duration or service type, style key name time interval and service type name as titles
       // style remaining keys as a subtitles and show time interval iff title is not service type and service type name = Spa
 
+      // const buttonElements = children[1].props.children.map((buttonEl) => {
+      //    console.log(buttonEl.props.children);
+      // });
+
+      // console.log(buttonElements);
+
       return (
          ((title === 'service' || title === 'favorite' || title === 'cart') &&
             k === 'name' && (

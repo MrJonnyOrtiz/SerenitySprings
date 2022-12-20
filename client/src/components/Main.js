@@ -664,7 +664,7 @@ function Main() {
                      initialData={{}} // to add new but n/a for cart
                      endpoint="" // to add new but n/a for cart
                      title="favorite"
-                     functionTitle={'Add'}
+                     functionTitle={''} // to add new or edit but n/a for cart
                      currentUser={currentUser}
                      open={open}
                      serviceType={serviceType}
@@ -680,13 +680,11 @@ function Main() {
                         variant="outlined"
                         size="small"
                         onClick={(Id) => {
-                           // TODO: delete from cart
-                           handleDeleteFave(
-                              Id,
-                              'favorite',
-                              currentUser.favorites,
-                              handleCurrentUser
+                           const id = +Id.target.parentElement.parentElement.id;
+                           const cartElement = cart.find(
+                              (element) => element.id === id
                            );
+                           deleteRecord(cart, cartElement, setCart);
                         }}
                      >
                         Delete

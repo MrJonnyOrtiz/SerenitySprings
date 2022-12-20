@@ -152,12 +152,18 @@ const ResponsiveAppBar = ({
                                       underline: 'hover',
                                    }}
                                 >
-                                   {/* {page} */}
-                                   {page === 'favorites'
-                                      ? (currentUser.favorites.length !== 0 &&
-                                           `favorites (${currentUser.favorites.length})`) ||
-                                        'favorites'
-                                      : page}
+                                   {/* {page === 'favorites' &&
+                                      ((currentUser.favorites.length !== 0 &&
+                                         page +
+                                            `(${currentUser.favorites.length})`) ||
+                                         page)} */}
+                                   {(page === 'favorites' &&
+                                      currentUser.favorites.length !== 0 &&
+                                      `${page} (${currentUser.favorites.length})`) ||
+                                      (page === 'cart' &&
+                                         cart.length !== 0 &&
+                                         `${page} (${cart.length})`) ||
+                                      page}
                                 </Button>
                              </MenuItem>
                           ))}
@@ -238,11 +244,13 @@ const ResponsiveAppBar = ({
                                 textDecoration: 'none',
                              }}
                           >
-                             {page === 'favorites'
-                                ? (currentUser.favorites.length &&
-                                     `favorites (${currentUser.favorites.length})`) ||
-                                  'favorites'
-                                : page}
+                             {(page === 'favorites' &&
+                                currentUser.favorites.length !== 0 &&
+                                `${page} (${currentUser.favorites.length})`) ||
+                                (page === 'cart' &&
+                                   cart.length !== 0 &&
+                                   `${page} (${cart.length})`) ||
+                                page}
                           </Link>
                        ))}
                </Box>

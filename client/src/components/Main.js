@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Booking from '../pages/Booking';
-import CartList from '../pages/CartList';
+// import CartList from '../pages/CartList';
 import About from '../pages/About';
 
 function Main() {
@@ -20,13 +20,14 @@ function Main() {
    const [serviceTypes, setServiceTypes] = useState([]);
    const [currentUser, setCurrentUser] = useState(null);
    const [services, setServices] = useState([]);
-   const [cart, setCart] = useState([]);
+   const [cart, setCart] = useState(
+      JSON.parse(localStorage.getItem('cart')) || []
+   );
    const [open, setOpen] = useState(false);
-   const [serviceType, setServiceType] = useState(5); // hardcoded to Salon
-   // const [serviceType, setServiceType] = useState(0);
 
+   // TODO: figure out how to dynamically initialize serviceType and duration
+   const [serviceType, setServiceType] = useState(5); // hardcoded to Salon
    const [duration, setDuration] = useState(25); // hardcoded duration to 0 minutes
-   // const [duration, setDuration] = useState(0);
 
    useEffect(() => {
       fetch('/authorized_user').then((res) => {
@@ -72,7 +73,9 @@ function Main() {
       });
    }, []);
 
-   const history = useHistory();
+   useEffect(() => {
+      localStorage.setItem('cart', JSON.stringify(cart));
+   }, [cart]);
 
    const handleClickOpen = () => {
       setOpen(true);
@@ -85,6 +88,8 @@ function Main() {
    const handleCurrentUser = (user) => {
       setCurrentUser(user);
    };
+
+   const history = useHistory();
 
    const deleteRecord = (arr, deletedElement, handleArr) => {
       const updatedArr = arr.filter(
@@ -117,12 +122,27 @@ function Main() {
       setArr((arr) => [...arr, newObj]);
    };
 
-   const handleCart = (cart) => {
-      setCart(cart);
-   };
+   const handleAddCartItem = (Id, caller) => {
+      const id = +Id.target.parentElement.parentElement.id;
+      let newCartItem = {};
+      switch (caller) {
+         case 'service':
+            newCartItem = services.find((item) => item.id === id);
+            break;
 
-   const addCartItem = (newServiceItem) => {
-      setCart((cart) => [...cart, newServiceItem]);
+         case 'favorite':
+            const favoriteItem = currentUser.favorites.find(
+               (favorite) => favorite.id === id
+            );
+            newCartItem = services.find(
+               (item) => item.id === favoriteItem.service_id
+            );
+            break;
+
+         default:
+            break;
+      }
+      Object.keys(newCartItem).length !== 0 && setCart([...cart, newCartItem]);
    };
 
    const updateService = (updatedService) => {
@@ -218,7 +238,7 @@ function Main() {
             currentUser={currentUser}
             handleCurrentUser={handleCurrentUser}
             cart={cart}
-            handleCart={handleCart}
+            handleCart={setCart}
          />
          <Switch>
             <Route path="/durations/new">
@@ -520,7 +540,6 @@ function Main() {
                               handleServiceEdit(Id, 'services');
                            }}
                         >
-                           {/* TODO: no work: function isn't returning edit form */}
                            Edit
                         </Button>
                         <Button
@@ -554,7 +573,7 @@ function Main() {
                            variant="outlined"
                            size="small"
                            onClick={(Id) => {
-                              addCartItem(Id, 'services', services);
+                              handleAddCartItem(Id, 'service');
                            }}
                         >
                            Add to Cart
@@ -607,7 +626,7 @@ function Main() {
                         variant="outlined"
                         size="small"
                         onClick={(Id) => {
-                           addCartItem(Id, 'services', services);
+                           handleAddCartItem(Id, 'favorite');
                         }}
                      >
                         Add to Cart
@@ -635,7 +654,69 @@ function Main() {
             </Route>
 
             <Route path="/cart">
-               <CartList cart={cart} setCart={handleCart} />
+               {/* <CartList cart={cart} setCart={handleCart} /> */}
+               {!currentUser.is_admin ? (
+                  <List
+                     arrName="Cart"
+                     arr={cart}
+                     addArr={{}} // to add new but n/a for cart
+                     setArr={{}} // array setter, n/a for cart
+                     initialData={{}} // to add new but n/a for cart
+                     endpoint="" // to add new but n/a for cart
+                     title="favorite"
+                     functionTitle={'Add'}
+                     currentUser={currentUser}
+                     open={open}
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     duration={duration}
+                     setDuration={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  >
+                     <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={(Id) => {
+                           // TODO: delete from cart
+                           handleDeleteFave(
+                              Id,
+                              'favorite',
+                              currentUser.favorites,
+                              handleCurrentUser
+                           );
+                        }}
+                     >
+                        Delete
+                     </Button>
+                     <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={(Id) => {
+                           // TODO: book service
+                           console.log(Id);
+                        }}
+                     >
+                        Buy & Book!
+                     </Button>
+                  </List>
+               ) : (
+                  <Box
+                     mt={2}
+                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                     }}
+                  >
+                     <Alert severity="error" variant="outlined">
+                        <AlertTitle>Not Authorized</AlertTitle>You are not
+                        authorized to this path.
+                     </Alert>
+                  </Box>
+               )}
             </Route>
 
             <Route path="/about">
@@ -654,7 +735,7 @@ function Main() {
             currentUser={currentUser}
             handleCurrentUser={handleCurrentUser}
             cart={cart}
-            handleCart={handleCart}
+            handleCart={setCart}
          />
       </div>
    );

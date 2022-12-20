@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import AppBar from './AppBar';
 import Footer from './Footer';
@@ -71,6 +72,8 @@ function Main() {
       });
    }, []);
 
+   const history = useHistory();
+
    const handleClickOpen = () => {
       setOpen(true);
    };
@@ -122,12 +125,12 @@ function Main() {
       setCart((cart) => [...cart, newServiceItem]);
    };
 
-   function updateService(updatedService) {
+   const updateService = (updatedService) => {
       const updatedServices = services.map((ogService) =>
          ogService.id === updatedService.id ? updatedService : ogService
       );
       setServices(updatedServices);
-   }
+   };
 
    const handleFave = async (Id, endpoint) => {
       const id = +Id.target.parentElement.parentElement.id;
@@ -196,19 +199,10 @@ function Main() {
       return { label: duration.time_interval, value: duration.id };
    });
 
-   // TODO: initialize service type id & duration id to avoid hardcoding
-
-   // const initServiceTypeId = setServiceType(() => {
-   //    const { id } = serviceTypes.find(
-   //       (service_type) => service_type.service_type_name === 'Salon'
-   //    );
-   //    return id;
-   // });
-
-   // const initDurationId = setDuration(() => {
-   //    const { id } = durations.find((duration) => duration.time_interval === 0);
-   //    return id;
-   // });
+   const handleServiceEdit = async (Id, endpoint) => {
+      const id = Id.target.parentElement.parentElement.id;
+      history.push(`/services/${id}/edit`);
+   };
 
    if (!currentUser) return <Login handleCurrentUser={handleCurrentUser} />;
 
@@ -236,6 +230,7 @@ function Main() {
                      setArr={setDurations}
                      initialData={{ time_interval: '' }}
                      title="duration"
+                     functionTitle={'Add'}
                      endpoint="durations"
                      open={true}
                      serviceType={serviceType}
@@ -244,6 +239,7 @@ function Main() {
                      setDurations={setDuration}
                      serviceTypeOptions={serviceTypeOptions}
                      durationOptions={durationOptions}
+                     updateService={updateService}
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   />
@@ -282,6 +278,7 @@ function Main() {
                      setDuration={setDuration}
                      serviceTypeOptions={serviceTypeOptions}
                      durationOptions={durationOptions}
+                     functionTitle={'Add'}
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   >
@@ -326,6 +323,7 @@ function Main() {
                      setArr={setServiceTypes}
                      initialData={{ service_type_name: '' }}
                      title="service type"
+                     functionTitle={'Add'}
                      endpoint="service_types"
                      open={true}
                      serviceType={serviceType}
@@ -334,6 +332,7 @@ function Main() {
                      setDurations={setDuration}
                      serviceTypeOptions={serviceTypeOptions}
                      durationOptions={durationOptions}
+                     updateService={updateService}
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   />
@@ -364,6 +363,7 @@ function Main() {
                      initialData={{ service_type_name: '' }}
                      endpoint="service_types"
                      title="service type"
+                     functionTitle={'Add'}
                      currentUser={currentUser}
                      open={open}
                      serviceType={serviceType}
@@ -424,6 +424,7 @@ function Main() {
                         duration_id: `${duration}`,
                      }}
                      title="service"
+                     functionTitle={'Add'}
                      endpoint="services"
                      serviceType={serviceType}
                      setServiceType={setServiceType}
@@ -431,6 +432,7 @@ function Main() {
                      setDurations={setDuration}
                      serviceTypeOptions={serviceTypeOptions}
                      durationOptions={durationOptions}
+                     updateService={updateService}
                      open={true}
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
@@ -452,6 +454,35 @@ function Main() {
                )}
             </Route>
 
+            <Route
+               exact
+               path="/services/:id/edit"
+               render={({ match }) => (
+                  <FormDialog
+                     arrName="Services"
+                     arr={services}
+                     addArr={addArr}
+                     setArr={setServices}
+                     initialData={services.find(
+                        (service) => service.id === parseInt(match.params.id)
+                     )}
+                     title="service"
+                     functionTitle={'Edit'}
+                     endpoint="services"
+                     serviceType={serviceType}
+                     setServiceType={setServiceType}
+                     durations={duration}
+                     setDurations={setDuration}
+                     serviceTypeOptions={serviceTypeOptions}
+                     durationOptions={durationOptions}
+                     updateService={updateService}
+                     open={true}
+                     handleClickOpen={handleClickOpen}
+                     handleClose={handleClose}
+                  />
+               )}
+            />
+
             <Route path="/services">
                <List
                   arrName="Services"
@@ -468,6 +499,7 @@ function Main() {
                   }}
                   endpoint="services"
                   title="service"
+                  functionTitle={'Add'}
                   currentUser={currentUser}
                   open={open}
                   serviceType={serviceType}
@@ -485,11 +517,10 @@ function Main() {
                            variant="outlined"
                            size="small"
                            onClick={(Id) => {
-                              console.log(
-                                 Id.target.parentElement.parentElement.id
-                              );
+                              handleServiceEdit(Id, 'services');
                            }}
                         >
+                           {/* TODO: no work: function isn't returning edit form */}
                            Edit
                         </Button>
                         <Button
@@ -546,6 +577,7 @@ function Main() {
                      }}
                      endpoint="favorites"
                      title="favorite"
+                     functionTitle={'Add'}
                      currentUser={currentUser}
                      open={open}
                      serviceType={serviceType}

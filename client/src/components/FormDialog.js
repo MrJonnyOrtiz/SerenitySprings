@@ -25,7 +25,9 @@ export default function FormDialog({
    handleClickOpen,
    handleClose,
    title,
+   functionTitle,
    endpoint,
+   updateService,
 }) {
    const history = useHistory();
 
@@ -63,11 +65,33 @@ export default function FormDialog({
 
       fetch(`/${endpoint}`, configObj).then((res) => {
          if (res.ok) {
-            res.json().then((newPostedObj) => {
-               addArr(arr, newPostedObj, setArr);
+            res.json().then((obj) => {
+               addArr(arr, obj, setArr);
 
-               //TODO: - refactor success notification
-               alert(`${title} added`);
+               history.push(`/${arrName.toLowerCase().replace(' ', '_')}`);
+            });
+         } else {
+            res.json().then((data) => {
+               //TODO: - refactor error notification
+               data.errors.time_interval[0]
+                  ? alert(`${dataObj[objKey]} ${data.errors.time_interval[0]}`)
+                  : alert(JSON.stringify(data.errors));
+            });
+         }
+      });
+   };
+
+   const patchData = (dataObj, objKey) => {
+      const configObj = {
+         method: 'PATCH',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ ...dataObj }),
+      };
+
+      fetch(`/${endpoint + '/' + dataObj.id}`, configObj).then((res) => {
+         if (res.ok) {
+            res.json().then((obj) => {
+               updateService(obj);
 
                history.push(`/${arrName.toLowerCase().replace(' ', '_')}`);
             });
@@ -99,7 +123,9 @@ export default function FormDialog({
                   //TODO: - refactor error notification
                   alert(`${timeIntervalInt} not in 15 minute increments.`);
                } else {
-                  postData(formData, objKey);
+                  functionTitle === 'Add'
+                     ? postData(formData, objKey)
+                     : patchData(formData, objKey);
                }
                break;
 
@@ -107,7 +133,9 @@ export default function FormDialog({
                const validServiceTypes = ['Spa', 'Salon', 'Products'];
 
                if (validServiceTypes.includes(formData[objKey])) {
-                  postData(formData, objKey);
+                  functionTitle === 'Add'
+                     ? postData(formData, objKey)
+                     : patchData(formData, objKey);
                } else {
                   alert(`${formData[objKey]} not a valid service.`);
                }
@@ -115,7 +143,7 @@ export default function FormDialog({
                break;
 
             case 'price':
-               const priceStr = formData[objKey];
+               const priceStr = String(formData[objKey]);
                priceStr.includes('.') &&
                   priceStr.split('.')[1].length > 2 &&
                   alert(
@@ -124,7 +152,9 @@ export default function FormDialog({
                ((priceStr.includes('.') &&
                   priceStr.split('.')[1].length <= 2) ||
                   !priceStr.includes('.')) &&
-                  postData(formData, objKey);
+                  (functionTitle === 'Add'
+                     ? postData(formData, objKey)
+                     : patchData(formData, objKey));
 
                break;
 
@@ -142,9 +172,11 @@ export default function FormDialog({
                k !== 'duration_id' &&
                k !== 'time_interval' &&
                k !== 'service_type_name' &&
+               k !== 'id' &&
                k.replace('_', ' ')}
          </DialogContentText>
-
+         {/* {`${k} ${v}`} */}
+         {/* TODO: if the key is service_type_id or duration_id, render the dropdown, or if the key isn't service_type_id or duration_id and the value isn't 0 and 'Salon' and 'id', render the TextField with the key and form data */}
          {(k === 'service_type_id' && (
             <Dropdown
                label="choose a service type"
@@ -153,21 +185,34 @@ export default function FormDialog({
                handleChange={(e) => handleDropDownChange(e, setServiceType)}
             />
          )) ||
-            (k !== 'duration_id' && (
-               <TextField
-                  name={k}
-                  id={k}
-                  value={formData[k]} // NOTE: changing this to v will cause re-render
-                  onChange={handleChange}
+            (k === 'duration_id' && (
+               <Dropdown
+                  label="choose a duration (minutes)"
+                  options={durationOptions}
+                  value={duration}
+                  handleChange={(e) => handleDropDownChange(e, setDuration)}
                />
-            ))}
+            )) ||
+            ((k !== 'service_type_id' || k !== 'duration_id') &&
+               v !== 0 &&
+               v !== 'Salon' &&
+               k !== 'id' && (
+                  <TextField
+                     name={k}
+                     id={k}
+                     value={formData[k]} // NOTE: changing this to v will cause re-render
+                     onChange={handleChange}
+                  />
+               ))}
       </Box>
    ));
 
    return (
       <div>
          <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Add {title}</DialogTitle>
+            <DialogTitle>
+               {functionTitle} {title}
+            </DialogTitle>
             <DialogContent>
                {inputElEntries}{' '}
                {serviceType === '3' && (
@@ -181,7 +226,9 @@ export default function FormDialog({
             </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={handleSubmit}>Add {title}</Button>
+               <Button onClick={handleSubmit}>
+                  {functionTitle} {title}
+               </Button>
             </DialogActions>
          </Dialog>
       </div>

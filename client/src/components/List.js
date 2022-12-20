@@ -24,6 +24,7 @@ function List({
    setDuration,
    serviceTypeOptions,
    durationOptions,
+   functionTitle,
    handleClickOpen,
    handleClose,
 }) {
@@ -83,6 +84,7 @@ function List({
             handleClose={handleClose}
             serviceTypeOptions={serviceTypeOptions}
             durationOptions={durationOptions}
+            functionTitle={functionTitle}
             title={title}
             endpoint={endpoint}
          />

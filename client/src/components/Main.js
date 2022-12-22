@@ -77,6 +77,8 @@ function Main() {
       localStorage.setItem('cart', JSON.stringify(cart));
    }, [cart]);
 
+   const history = useHistory();
+
    const handleClickOpen = () => {
       setOpen(true);
    };
@@ -88,8 +90,6 @@ function Main() {
    const handleCurrentUser = (user) => {
       setCurrentUser(user);
    };
-
-   const history = useHistory();
 
    const deleteRecord = (arr, deletedElement, handleArr) => {
       const updatedArr = arr.filter(
@@ -226,7 +226,7 @@ function Main() {
 
    if (!currentUser) return <Login handleCurrentUser={handleCurrentUser} />;
 
-   // TODO: WHEN PUSHING TO HEROKU, CHANGE TO NOT ADMIN TO ALLOW ADMIN TO ADD SERVICE TYPES, DURATIONS, & SERVICES
+   // NOTE: WHEN PUSHING TO HEROKU, CHANGE TO NOT ADMIN TO ALLOW ADMIN TO ADD SERVICE TYPES, DURATIONS, & SERVICES
    // if (!currentUser.is_admin) {
    //    if (!services.length || !durations.length || !serviceTypes.length) {
    //       return <h2>Loading..</h2>;

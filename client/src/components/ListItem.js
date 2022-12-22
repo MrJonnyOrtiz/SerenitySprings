@@ -22,16 +22,9 @@ function ListItem({ item, children, currentUser, title }) {
       )
          return false;
 
-      // if title = service or fave or cart, style key name as a title
-      // or
-      // if title = duration or service type, style key name time interval and service type name as titles
+      // if title = service or fave or cart, style key name as a title, or
+      // if title = duration or service type, style key name time interval and service type name as titles.
       // style remaining keys as a subtitles and show time interval iff title is not service type and service type name = Spa
-
-      // const buttonElements = children[1].props.children.map((buttonEl) => {
-      //    console.log(buttonEl.props.children);
-      // });
-
-      // console.log(buttonElements);
 
       return (
          ((title === 'service' || title === 'favorite' || title === 'cart') &&
@@ -68,12 +61,11 @@ function ListItem({ item, children, currentUser, title }) {
 
    const myChildren = React.Children.toArray(children);
 
-   const myChildrenMap =
+   const myChildrenEl =
       (title === 'service' &&
          foundFave &&
          React.Children.map(myChildren, (child) => {
             return child.props.children.map((element) => {
-               console.log(element);
                return (
                   (element.props.children === 'Fave Me!' &&
                      React.cloneElement(element, {
@@ -106,16 +98,8 @@ function ListItem({ item, children, currentUser, title }) {
                   )}
             </CardContent>
             <CardActions>
-               {/* {myChildren} */}
-               {myChildrenMap}
-               {/* TODO: CHANGE THE BUTTON'S NAME IF FAVED */}
-               {/* {children.forEach((child) => {
-                  if (child) {
-                     child.props.children.forEach((child2) =>
-                        console.log(child2.props.children)
-                     );
-                  }
-               })} */}
+               {myChildrenEl}
+               {/* TODO: CHANGE THE BUTTON'S NAME IF ADDED TO CART */}
             </CardActions>
          </Card>
       </Container>

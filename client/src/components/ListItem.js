@@ -61,6 +61,31 @@ function ListItem({ item, children, currentUser, title }) {
       );
    });
 
+   const foundFave =
+      (currentUser.favorites.find((fave) => fave.service_id === item.id) &&
+         true) ||
+      false;
+
+   const myChildren = React.Children.toArray(children);
+
+   const myChildrenMap =
+      (title === 'service' &&
+         foundFave &&
+         React.Children.map(myChildren, (child) => {
+            return child.props.children.map((element) => {
+               console.log(element);
+               return (
+                  (element.props.children === 'Fave Me!' &&
+                     React.cloneElement(element, {
+                        disabled: true,
+                        children: 'FAVED',
+                     })) ||
+                  element
+               );
+            });
+         })) ||
+      children;
+
    return (
       <Container maxWidth="sm">
          <Card key={item.id} id={item.id} variant="outlined">
@@ -81,7 +106,8 @@ function ListItem({ item, children, currentUser, title }) {
                   )}
             </CardContent>
             <CardActions>
-               {children}
+               {/* {myChildren} */}
+               {myChildrenMap}
                {/* TODO: CHANGE THE BUTTON'S NAME IF FAVED */}
                {/* {children.forEach((child) => {
                   if (child) {

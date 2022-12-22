@@ -1,6 +1,23 @@
 import { useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import { useHistory } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Copyright from './Copyright';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
 
 function Register({ handleCurrentUser }) {
    const [error, setError] = useState('');
@@ -17,6 +34,7 @@ function Register({ handleCurrentUser }) {
 
    const { formData, handleChange } = useForm(initialData);
 
+   // TODO: use async/await
    const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -89,93 +107,127 @@ function Register({ handleCurrentUser }) {
    };
 
    return (
-      <div>
-         <h2>Register</h2>
-         <div className="form-container form-center">
-            <form onSubmit={handleSubmit}>
-               <fieldset>
-                  <label>
-                     First Name: &nbsp;&nbsp;
-                     <input
-                        type="text"
-                        name="first_name"
-                        id="first_name"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                     />
-                  </label>
-               </fieldset>
-               <fieldset>
-                  <label>
-                     Last Name: &nbsp;&nbsp;
-                     <input
-                        type="text"
-                        name="last_name"
-                        id="last_name"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        required
-                     />
-                  </label>
-               </fieldset>
-               <fieldset>
-                  <label>
-                     Email: &nbsp;&nbsp;
-                     <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                     />
-                  </label>
-               </fieldset>
-               <fieldset>
-                  <label>
-                     Password: &nbsp;&nbsp;
-                     <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                     />
-                  </label>
-               </fieldset>
-               <fieldset>
-                  <label>
-                     Confirm Password: &nbsp;&nbsp;
-                     <input
-                        type="password"
-                        name="password_confirmation"
-                        id="password_confirmation"
-                        value={formData.password_confirmation}
-                        onChange={handleChange}
-                        required
-                     />
-                  </label>
-               </fieldset>
+      <ThemeProvider theme={theme}>
+         <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+               sx={{
+                  marginTop: 8,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+               }}
+            >
+               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                  <LockOutlinedIcon />
+               </Avatar>
+               <Typography component="h1" variant="h5">
+                  Sign up
+               </Typography>
+               <Box
+                  component="form"
+                  noValidate
+                  onSubmit={handleSubmit}
+                  sx={{ mt: 3 }}
+               >
+                  <Grid container spacing={2}>
+                     <Grid item xs={12} sm={6}>
+                        <TextField
+                           autoComplete="given-name"
+                           name="first_name"
+                           value={formData.first_name}
+                           required
+                           fullWidth
+                           id="first_name"
+                           label="First Name"
+                           autoFocus
+                           onChange={handleChange}
+                        />
+                     </Grid>
+                     <Grid item xs={12} sm={6}>
+                        <TextField
+                           required
+                           fullWidth
+                           id="last_name"
+                           label="Last Name"
+                           name="last_name"
+                           value={formData.last_name}
+                           autoComplete="family-name"
+                           onChange={handleChange}
+                        />
+                     </Grid>
+                     <Grid item xs={12}>
+                        <TextField
+                           required
+                           fullWidth
+                           id="email"
+                           label="Email Address"
+                           name="email"
+                           value={formData.email}
+                           autoComplete="email"
+                           onChange={handleChange}
+                        />
+                     </Grid>
+                     <Grid item xs={12}>
+                        <TextField
+                           required
+                           fullWidth
+                           name="password"
+                           value={formData.password}
+                           label="Password"
+                           type="password"
+                           id="password"
+                           autoComplete="new-password"
+                           onChange={handleChange}
+                        />
+                     </Grid>
+                     <Grid item xs={12}>
+                        <TextField
+                           required
+                           fullWidth
+                           name="password_confirmation"
+                           value={formData.password_confirmation}
+                           label="Password Confirmation"
+                           type="password"
+                           id="password_confirmation"
+                           autoComplete="new-password"
+                           onChange={handleChange}
+                        />
+                     </Grid>
+                     {/* <Grid item xs={12}>
+                        <FormControlLabel
+                           control={
+                              <Checkbox
+                                 value="allowExtraEmails"
+                                 color="primary"
+                              />
+                           }
+                           label="I want to receive inspiration, marketing promotions and updates via email."
+                        />
+                     </Grid> */}
+                  </Grid>
+                  {error && <Alert severity="error">{error}.</Alert>}
 
-               {error.email && (
-                  <div className="error">
-                     {error.email && `Email ${formData.email} ${error.email}`}.
-                  </div>
-               )}
-               {error.password_confirmation && (
-                  <div className="error">
-                     Password confirmation {error.password_confirmation}
-                  </div>
-               )}
-
-               <button className="btn-submit" type="submit">
-                  Register!
-               </button>
-            </form>
-         </div>
-      </div>
+                  <Button
+                     type="submit"
+                     fullWidth
+                     variant="contained"
+                     sx={{ mt: 3, mb: 2 }}
+                  >
+                     Sign Up
+                  </Button>
+                  <Grid container justifyContent="flex-end">
+                     <Grid item>
+                        <Link href="/login" variant="body2">
+                           Already have an account? Sign in
+                        </Link>
+                     </Grid>
+                  </Grid>
+               </Box>
+            </Box>
+            <Copyright sx={{ mt: 5 }} />
+         </Container>
+      </ThemeProvider>
    );
 }
 

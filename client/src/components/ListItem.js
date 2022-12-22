@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-function ListItem({ item, children, currentUser, title }) {
+function ListItem({ item, children, currentUser, title, cart }) {
    const itemEntries = Object.entries(item);
 
    const itemEl = itemEntries.map(([k, v]) => {
@@ -54,27 +54,59 @@ function ListItem({ item, children, currentUser, title }) {
       );
    });
 
-   const foundFave =
-      (currentUser.favorites.find((fave) => fave.service_id === item.id) &&
+   const foundServiceFave =
+      (title === 'service' &&
+         currentUser.favorites.find((fave) => fave.service_id === item.id) &&
          true) ||
       false;
 
-   const myChildren = React.Children.toArray(children);
+   const foundServiceInCart =
+      (title === 'service' &&
+         cart.find((cartItem) => cartItem.id === item.id) &&
+         true) ||
+      false;
+
+   const foundFaveInCart =
+      (title === 'favorite' &&
+         cart.find((cartItem) => cartItem.id === item.service_id) &&
+         true) ||
+      false;
+
+   const myChildren = React.Children.toArray(children); // make a copy of children as they're immutable
 
    const myChildrenEl =
       (title === 'service' &&
-         foundFave &&
+         (foundServiceFave || foundServiceInCart) &&
          React.Children.map(myChildren, (child) => {
             return child.props.children.map((element) => {
                return (
                   (element.props.children === 'Fave Me!' &&
+                     foundServiceFave &&
                      React.cloneElement(element, {
                         disabled: true,
                         children: 'FAVED',
                      })) ||
+                  (element.props.children === 'Add to Cart' &&
+                     foundServiceInCart &&
+                     React.cloneElement(element, {
+                        disabled: true,
+                        children: 'In Cart',
+                     })) ||
                   element
                );
             });
+         })) ||
+      (title === 'favorite' &&
+         React.Children.map(myChildren, (element) => {
+            return (
+               (element.props.children === 'Add to Cart' &&
+                  foundFaveInCart &&
+                  React.cloneElement(element, {
+                     disabled: true,
+                     children: 'In Cart',
+                  })) ||
+               element
+            );
          })) ||
       children;
 
@@ -97,10 +129,7 @@ function ListItem({ item, children, currentUser, title }) {
                      </Typography>
                   )}
             </CardContent>
-            <CardActions>
-               {myChildrenEl}
-               {/* TODO: CHANGE THE BUTTON'S NAME IF ADDED TO CART */}
-            </CardActions>
+            <CardActions>{myChildrenEl}</CardActions>
          </Card>
       </Container>
    );

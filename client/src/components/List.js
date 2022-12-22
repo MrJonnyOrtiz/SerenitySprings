@@ -17,6 +17,7 @@ function List({
    title,
    endpoint,
    currentUser,
+   cart,
    open,
    serviceType,
    setServiceType,
@@ -38,6 +39,7 @@ function List({
                item={arrItem}
                currentUser={currentUser}
                title={title}
+               cart={cart}
             >
                {children}
             </ListItem>

@@ -8,6 +8,12 @@ import Welcome from '../pages/Welcome';
 import FormDialog from './FormDialog';
 import List from './List';
 import Button from '@mui/material/Button';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
+import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -291,6 +297,7 @@ function Main() {
                      endpoint="durations"
                      title="duration"
                      currentUser={currentUser}
+                     cart={cart}
                      open={open}
                      serviceType={serviceType}
                      setServiceType={setServiceType}
@@ -305,6 +312,7 @@ function Main() {
                      <Button
                         variant="outlined"
                         size="small"
+                        startIcon={<DeleteOutlinedIcon />}
                         onClick={(Id) => {
                            handleDelete(
                               Id,
@@ -385,6 +393,7 @@ function Main() {
                      title="service type"
                      functionTitle={'Add'}
                      currentUser={currentUser}
+                     cart={cart}
                      open={open}
                      serviceType={serviceType}
                      setServiceType={setServiceType}
@@ -398,6 +407,7 @@ function Main() {
                      <Button
                         variant="outlined"
                         size="small"
+                        startIcon={<DeleteOutlinedIcon />}
                         onClick={(Id) => {
                            handleDelete(
                               Id,
@@ -521,6 +531,7 @@ function Main() {
                   title="service"
                   functionTitle={'Add'}
                   currentUser={currentUser}
+                  cart={cart}
                   open={open}
                   serviceType={serviceType}
                   setServiceType={setServiceType}
@@ -536,6 +547,7 @@ function Main() {
                         <Button
                            variant="outlined"
                            size="small"
+                           startIcon={<EditOutlinedIcon />}
                            onClick={(Id) => {
                               handleServiceEdit(Id, 'services');
                            }}
@@ -545,6 +557,7 @@ function Main() {
                         <Button
                            variant="outlined"
                            size="small"
+                           startIcon={<DeleteOutlinedIcon />}
                            onClick={(Id) => {
                               handleDelete(
                                  Id,
@@ -563,6 +576,7 @@ function Main() {
                         <Button
                            variant="outlined"
                            size="small"
+                           startIcon={<FavoriteBorderIcon />}
                            onClick={(Id) => {
                               handleFave(Id, 'favorites');
                            }}
@@ -572,6 +586,7 @@ function Main() {
                         <Button
                            variant="outlined"
                            size="small"
+                           startIcon={<AddShoppingCartOutlinedIcon />}
                            onClick={(Id) => {
                               handleAddCartItem(Id, 'service');
                            }}
@@ -598,6 +613,7 @@ function Main() {
                      title="favorite"
                      functionTitle={'Add'}
                      currentUser={currentUser}
+                     cart={cart}
                      open={open}
                      serviceType={serviceType}
                      setServiceType={setServiceType}
@@ -611,6 +627,7 @@ function Main() {
                      <Button
                         variant="outlined"
                         size="small"
+                        startIcon={<HeartBrokenOutlinedIcon />}
                         onClick={(Id) => {
                            handleDeleteFave(
                               Id,
@@ -625,6 +642,7 @@ function Main() {
                      <Button
                         variant="outlined"
                         size="small"
+                        startIcon={<AddShoppingCartOutlinedIcon />}
                         onClick={(Id) => {
                            handleAddCartItem(Id, 'favorite');
                         }}
@@ -666,6 +684,7 @@ function Main() {
                      title="favorite"
                      functionTitle={''} // to add new or edit but n/a for cart
                      currentUser={currentUser}
+                     cart={cart}
                      open={open}
                      serviceType={serviceType}
                      setServiceType={setServiceType}
@@ -679,6 +698,7 @@ function Main() {
                      <Button
                         variant="outlined"
                         size="small"
+                        startIcon={<DeleteOutlinedIcon />}
                         onClick={(Id) => {
                            const id = +Id.target.parentElement.parentElement.id;
                            const cartElement = cart.find(
@@ -692,6 +712,7 @@ function Main() {
                      <Button
                         variant="outlined"
                         size="small"
+                        startIcon={<InventoryOutlinedIcon />}
                         onClick={(Id) => {
                            // TODO: book service
                            console.log(Id);

@@ -4,9 +4,9 @@
    --color-brand--3: #efd9d1;
    --color-brand--4: #ddb7ab;
    --color-error--1: red;
-   --color-base--1: gray;
+   --color-base--1: #808080;
    --color-base--2: black;
-   --color-base--3: white;
+   --color-base--3: #ffffff;
    --color-base--4: green;
    --color-hover--1: darkgray;
 }
@@ -63,20 +63,6 @@ a {
    text-decoration: none;
 }
 
-.error {
-   text-align: center;
-   color: var(--color-error--1);
-   margin: 5px;
-   padding: 5px;
-}
-
-.message {
-   text-align: center;
-   color: var(--color-base--4);
-   margin: 5px;
-   padding: 5px;
-}
-
 #welcome {
    color: var(--color-brand--1);
    font-weight: bold;
@@ -92,33 +78,6 @@ a {
 
 .center {
    text-align: center;
-}
-
-#btn-logout {
-   position: relative;
-   border-bottom: 1px dotted black;
-}
-#btn-logout:before {
-   content: attr(data-hover);
-   visibility: hidden;
-   opacity: 0;
-   width: max-content;
-   background-color: var(--color-base--1);
-   color: var(--color-base--3);
-   text-align: center;
-   border-radius: 5px;
-   padding: 5px 5px;
-   transition: opacity 1s ease-in-out;
-
-   position: absolute;
-   z-index: 1;
-   left: 0;
-   top: 110%;
-}
-
-#btn-logout:hover:before {
-   opacity: 1;
-   visibility: visible;
 }
 
 #owners {

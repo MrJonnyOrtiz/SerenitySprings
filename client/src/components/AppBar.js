@@ -285,7 +285,6 @@ const ResponsiveAppBar = ({
                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
                            <Button
                               href={`/${setting}`}
-                              id="btn-logout"
                               data-hover={setting}
                               // TO-DO: make onClick dynamic
                               onClick={logout}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import { useHistory } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import Avatar from '@mui/material/Avatar';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -14,7 +15,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Copyright from './Copyright';
+import Copyright from '../components/Copyright';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
@@ -23,6 +24,8 @@ function Register({ handleCurrentUser }) {
    const [error, setError] = useState('');
 
    const history = useHistory();
+
+   useDocumentTitle('Serenity Springs - Register');
 
    const initialData = {
       first_name: '',

@@ -29,7 +29,7 @@ function List({
    handleClickOpen,
    handleClose,
 }) {
-   useDocumentTitle(`Serenity Springs - ${arrName} List`);
+   useDocumentTitle(`Serenity Springs - ${arrName}`);
 
    const listEl = arr.map((arrItem) => (
       <Grid xs={12} sm={6} md={4} key={arrItem.id}>

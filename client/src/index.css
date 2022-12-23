@@ -25,11 +25,6 @@ body {
    -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-}
-
 h2 {
    text-align: center;
    color: var(--color-brand--1);
@@ -68,32 +63,6 @@ a {
    text-decoration: none;
 }
 
-.form-container {
-   clear: both;
-}
-
-.form-container input {
-   width: 100%;
-   clear: both;
-}
-.form-center {
-   display: flex;
-   justify-content: center;
-   text-align: center;
-}
-
-.btn-submit {
-   background-color: var(--color-brand--1); /* Green */
-   border: 0.5rem outset var(--color-brand--4);
-   color: var(--color-brand--2);
-   padding: 15px 32px;
-   margin: 10px;
-   text-align: center;
-   display: inline-block;
-   font-weight: bolder;
-   font-size: 1.25rem;
-}
-
 .error {
    text-align: center;
    color: var(--color-error--1);
@@ -125,44 +94,6 @@ a {
    text-align: center;
 }
 
-.wrapper {
-   display: grid;
-   grid-template-columns: repeat(3, 1fr);
-}
-
-.card {
-   /* Add shadows to create the "card" effect */
-   box-shadow: 0 4px 8px 0 var(--color-base--1);
-   transition: 0.3s;
-   margin: 0.5rem;
-}
-
-/* On mouse-over, add a deeper shadow */
-.card:hover {
-   box-shadow: 0 16px 32px 0 var(--color-brand--4);
-}
-
-.card-actions {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.add-btn-container {
-   overflow: hidden;
-}
-
-.add-button {
-   float: right;
-}
-
-.notification {
-   margin: 0.25rem;
-}
-
-#user-status {
-   text-align: right;
-}
 #btn-logout {
    position: relative;
    border-bottom: 1px dotted black;

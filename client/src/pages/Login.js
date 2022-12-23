@@ -1,7 +1,8 @@
-import Register from './Register';
 import { useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import { useHistory } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import Register from '../pages/Register';
 import Avatar from '@mui/material/Avatar';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -16,7 +17,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import hero from '../assets/sam-carter-OL3fzrOhvPo-unsplash.jpg';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Copyright from './Copyright';
+import Copyright from '../components/Copyright';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -27,6 +28,8 @@ function Login({ handleCurrentUser }) {
    const [error, setError] = useState('');
 
    const history = useHistory();
+
+   useDocumentTitle('Serenity Springs - Login');
 
    const initialData = {
       email: '',
@@ -64,10 +67,12 @@ function Login({ handleCurrentUser }) {
 
    return (
       <>
-         <Typography variant="h2">Welcome to Serenity Springs!</Typography>
+         <Box m={3}>
+            <Typography variant="h2">Welcome to Serenity Springs!</Typography>
+         </Box>
          {toggle ? (
             <ThemeProvider theme={theme}>
-               <Grid container component="main" sx={{ height: '100vh' }}>
+               <Grid container component="main" sx={{ height: '50vh' }}>
                   <CssBaseline />
                   <Grid
                      item

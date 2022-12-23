@@ -1,6 +1,8 @@
-import React from 'react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 function About() {
+   useDocumentTitle('Serenity Springs - About');
+
    return (
       <div className="center">
          <h2>About Us</h2>

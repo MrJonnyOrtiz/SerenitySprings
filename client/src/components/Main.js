@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import AppBar from './AppBar';
 import Footer from './Footer';
-import Login from './Login';
+import Login from '../pages/Login';
 import Welcome from '../pages/Welcome';
 import FormDialog from './FormDialog';
 import List from './List';

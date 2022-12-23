@@ -1,6 +1,10 @@
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+
 import { InlineWidget } from 'react-calendly';
 
 export default function Booking() {
+   useDocumentTitle('Serenity Springs - Booking');
+
    return (
       <div>
          <h3>

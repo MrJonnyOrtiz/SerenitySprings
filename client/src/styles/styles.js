@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const Colors = {
    primary: '#999b84',
-   secondary: '#f4eeed',
+   secondary: '#ddb7ab',
    success: '',
    info: '',
    danger: '',
@@ -26,6 +26,11 @@ const theme = createTheme({
       },
       secondary: {
          main: Colors.secondary,
+      },
+      text: {
+         primary: Colors.primary,
+         secondary: Colors.gray,
+         tertiary: Colors.white,
       },
    },
 

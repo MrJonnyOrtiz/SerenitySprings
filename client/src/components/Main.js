@@ -718,7 +718,7 @@ function Main() {
                            console.log(Id);
                         }}
                      >
-                        Buy & Book!
+                        Checkout!
                      </Button>
                   </List>
                ) : (

@@ -62,13 +62,3 @@ img {
 a {
    text-decoration: none;
 }
-
-.center {
-   text-align: center;
-}
-
-#owners {
-   height: 300px;
-   width: auto;
-   border: 0.5rem outset var(--color-brand--4);
-}

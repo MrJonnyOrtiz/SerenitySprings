@@ -7,7 +7,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-function ListItem({ item, children, currentUser, title, cart }) {
+function ListItem({
+   item,
+   children,
+   currentUser,
+   title,
+   cart,
+   open,
+   handleClose,
+}) {
    const itemEntries = Object.entries(item);
 
    const itemEl = itemEntries.map(([k, v]) => {
@@ -44,7 +52,7 @@ function ListItem({ item, children, currentUser, title, cart }) {
                </Box>
             )) || (
             <Box key={k}>
-               <Typography variant="h6" color="text.secondary">
+               <Typography variant="subtitle1" color="text.secondary">
                   {(k === 'price' && `Price: $ ${v}`) ||
                      (k === 'service_type_name' && `Service type: ${v}`) ||
                      (k === 'description' && `Service details: ${v}`)}
@@ -120,7 +128,7 @@ function ListItem({ item, children, currentUser, title, cart }) {
                   alt={item.description}
                />
             )}
-            <CardContent>
+            <CardContent sx={{ maxHeight: 200, overflow: 'auto' }}>
                {itemEl}
                {title !== 'service type' &&
                   item.service_type_name === 'Spa' && (

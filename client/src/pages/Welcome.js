@@ -1,4 +1,7 @@
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
 function Welcome({ currentUser }) {
    useDocumentTitle('Serenity Springs - Welcome');
@@ -6,15 +9,31 @@ function Welcome({ currentUser }) {
    const { first_name } = currentUser;
 
    return (
-      <div id="welcome">
-         <h2>Welcome to Serenity Springs, {first_name}!</h2>
-         <div className="benes-list">
-            <h3>Here for you with:</h3>
-            <h3>‣ individually customized salon and spa experiences</h3>
-            <h3>‣ natural, handmade products</h3>
-         </div>
-         <h2 className="center">Now serving the Greater Tampa Bay area!</h2>
-      </div>
+      <Grid
+         container
+         p={3}
+         sx={{
+            borderColor: 'var(--color-brand--4)',
+            borderWidth: '0.5rem',
+            borderStyle: 'solid',
+         }}
+      >
+         <Grid item xs={12} m={2}>
+            <Typography variant="h2">Welcome, {first_name}!</Typography>
+         </Grid>
+
+         <Grid item m={2} xs={12} sx={{ textAlign: 'center' }}>
+            <Typography variant="h5">
+               Check out our individually customized{' '}
+               <Link href="/services">salon and spa experiences</Link>.
+            </Typography>
+         </Grid>
+         <Grid item xs={12} m={2} sx={{ textAlign: 'center' }}>
+            <Typography variant="h5">
+               We use all natural, handmade products.
+            </Typography>
+         </Grid>
+      </Grid>
    );
 }
 

@@ -208,29 +208,27 @@ export default function FormDialog({
    ));
 
    return (
-      <div>
-         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>
+      <Dialog open={open} onClose={handleClose}>
+         <DialogTitle>
+            {functionTitle} {title}
+         </DialogTitle>
+         <DialogContent>
+            {inputElEntries}{' '}
+            {serviceType === '3' && (
+               <Dropdown
+                  label="choose a duration (minutes)"
+                  options={durationOptions}
+                  value={duration}
+                  handleChange={(e) => handleDropDownChange(e, setDuration)}
+               />
+            )}
+         </DialogContent>
+         <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleSubmit}>
                {functionTitle} {title}
-            </DialogTitle>
-            <DialogContent>
-               {inputElEntries}{' '}
-               {serviceType === '3' && (
-                  <Dropdown
-                     label="choose a duration (minutes)"
-                     options={durationOptions}
-                     value={duration}
-                     handleChange={(e) => handleDropDownChange(e, setDuration)}
-                  />
-               )}
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={handleSubmit}>
-                  {functionTitle} {title}
-               </Button>
-            </DialogActions>
-         </Dialog>
-      </div>
+            </Button>
+         </DialogActions>
+      </Dialog>
    );
 }

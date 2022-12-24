@@ -40,6 +40,8 @@ function List({
                currentUser={currentUser}
                title={title}
                cart={cart}
+               open={open}
+               handleClose={handleClose}
             >
                {children}
             </ListItem>

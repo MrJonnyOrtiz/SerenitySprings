@@ -16,6 +16,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright';
+import logo from '../assets/serenitySpringsLogoNoName.png';
 
 function Register({ handleCurrentUser }) {
    const [error, setError] = useState('');
@@ -215,13 +216,31 @@ function Register({ handleCurrentUser }) {
                >
                   Sign Up
                </Button>
-               <Grid container justifyContent="flex-end">
+               <Grid
+                  container
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+               >
                   <Grid item>
                      <Link href="/login" variant="body2">
                         Already have an account? Sign in
                      </Link>
                   </Grid>
                </Grid>
+            </Box>
+         </Box>
+         <Box
+            mt={2}
+            sx={{
+               display: { xs: 'flex', md: 'none' },
+               flexGrow: 1,
+            }}
+         >
+            <Box m="auto">
+               <Link href="/">
+                  <img src={logo} alt="serenity springs salon and spa logo" />
+               </Link>
             </Box>
          </Box>
          <Copyright sx={{ mt: 5 }} />

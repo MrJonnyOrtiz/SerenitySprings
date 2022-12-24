@@ -227,7 +227,7 @@ function Main() {
 
    const handleServiceEdit = async (Id, endpoint) => {
       const id = Id.target.parentElement.parentElement.id;
-      history.push(`/services/${id}/edit`);
+      history.push(`/${endpoint}/${id}/edit`);
    };
 
    if (!currentUser) return <Login handleCurrentUser={handleCurrentUser} />;
@@ -239,7 +239,7 @@ function Main() {
    //    }
    // }
    return (
-      <div>
+      <>
          <AppBar
             currentUser={currentUser}
             handleCurrentUser={handleCurrentUser}
@@ -756,7 +756,7 @@ function Main() {
             cart={cart}
             handleCart={setCart}
          />
-      </div>
+      </>
    );
 }
 

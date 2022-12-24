@@ -63,19 +63,6 @@ a {
    text-decoration: none;
 }
 
-#welcome {
-   color: var(--color-brand--1);
-   font-weight: bold;
-   border-color: var(--color-brand--4);
-   border-width: 0.5rem;
-   border-style: solid;
-   margin: 1rem 15% 0 15%;
-}
-
-.benes-list {
-   margin-left: 15%;
-}
-
 .center {
    text-align: center;
 }

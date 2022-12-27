@@ -27,7 +27,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
    <Tooltip {...props} classes={{ popper: className }} placement="bottom" />
 ))(({ theme }) => ({
    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: '#f5f5f9',
+      backgroundColor: '#F4EEED',
       color: 'rgba(0, 0, 0, 0.87)',
       maxWidth: 220,
       fontSize: theme.typography.pxToRem(12),

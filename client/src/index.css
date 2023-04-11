@@ -40,6 +40,10 @@ img {
    width: auto;
 }
 
+a {
+   text-decoration: none;
+}
+
 @media (min-height: 1rem) {
 }
 
@@ -59,6 +63,3 @@ img {
    }
 }
 
-a {
-   text-decoration: none;
-}

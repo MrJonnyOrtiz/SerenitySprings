@@ -1,28 +1,61 @@
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-import { InlineWidget } from 'react-calendly';
+import { InlineWidget } from "react-calendly";
 
 export default function Booking() {
-   useDocumentTitle('Serenity Springs - Booking');
+   useDocumentTitle("Serenity Springs - Booking");
 
    return (
-      <div>
-         <h3>
-            For a free consultation, or to book an appointment
+      <Container fixed>
+         <Box>
+            <Typography variant="h5" component="h2" gutterBottom mt={2}>
+               Booking
+            </Typography>
+         </Box>
+         <Box>
+            <Typography variant="h6" component="h3" color="text.secondary">
+               For a free consultation, or to book an appointment, follow these
+               steps:
+            </Typography>
+         </Box>
+         <Box mt={2} ml={2} pl={2}>
             <ol>
-               <li>click "Make an appointment" below </li>{' '}
-               <li>select an available date and time, then click Confirm</li>
                <li>
-                  enter your name, email address, and any additional information
-                  you'd like to share with us for us to consider before our
-                  meeting
+                  <Typography color="text.secondary">
+                     click "Make an appointment" below{" "}
+                  </Typography>
+               </li>{" "}
+               <li>
+                  <Typography color="text.secondary">
+                     select an available date and time, then click Confirm
+                  </Typography>
+               </li>
+               <li>
+                  <Typography color="text.secondary">
+                     enter your name, email address, and any additional
+                     information you'd like to share with us for us to consider
+                     before our meeting
+                  </Typography>
                </li>
             </ol>
-            We will email you a Zoom link to meet you virtually on the date and
-            time you chose for a free consultation or to book an appointment.
-            <p> Thank you and we look forward to meeting you!</p>
-         </h3>
-         <InlineWidget url="https://calendly.com/yourserenitysprings" />
-      </div>
+         </Box>
+         <Box mt={2}>
+            <Typography color="text.secondary">
+               We will email you to confirm the date and time you chose for a
+               free consultation, or to book an appointment.
+            </Typography>
+         </Box>
+         <Box mt={2}>
+            <Typography color="text.secondary">
+               Thank you and we look forward to meeting you!
+            </Typography>
+         </Box>
+         <Box>
+            <InlineWidget url="https://calendly.com/yourserenitysprings" />
+         </Box>
+      </Container>
    );
 }

@@ -1,25 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Switch, Route } from 'react-router-dom';
-import AppBar from './AppBar';
-import Footer from './Footer';
-import Login from '../pages/Login';
-import Welcome from '../pages/Welcome';
-import FormDialog from './FormDialog';
-import List from './List';
-import Button from '@mui/material/Button';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
-import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Booking from '../pages/Booking';
-// import CartList from '../pages/CartList';
-import About from '../pages/About';
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import AppBar from "./AppBar";
+import Footer from "./Footer";
+import Login from "../pages/Login";
+import Welcome from "../pages/Welcome";
+import FormDialog from "./FormDialog";
+import List from "./List";
+import Button from "@mui/material/Button";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
+import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Booking from "../pages/Booking";
+import About from "../pages/About";
 
 function Main() {
    const [durations, setDurations] = useState([]);
@@ -27,7 +26,7 @@ function Main() {
    const [currentUser, setCurrentUser] = useState(null);
    const [services, setServices] = useState([]);
    const [cart, setCart] = useState(
-      JSON.parse(localStorage.getItem('cart')) || []
+      JSON.parse(localStorage.getItem("cart")) || []
    );
    const [open, setOpen] = useState(false);
 
@@ -36,22 +35,22 @@ function Main() {
    const [duration, setDuration] = useState(25); // hardcoded duration to 0 minutes
 
    useEffect(() => {
-      fetch('/authorized_user').then((res) => {
+      fetch("/authorized_user").then((res) => {
          if (res.ok) {
             res.json().then((user) => setCurrentUser(user));
          } else {
-            console.log('You are not logged in. Please login.');
+            console.log("You are not logged in. Please login.");
          }
       });
    }, []);
 
    useEffect(() => {
       if (currentUser && currentUser.is_admin) {
-         fetch('/durations').then((res) => {
+         fetch("/durations").then((res) => {
             if (res.ok) {
                res.json().then((duration) => setDurations(duration));
             } else {
-               console.log('No durations');
+               console.log("No durations");
             }
          });
       }
@@ -59,28 +58,28 @@ function Main() {
 
    useEffect(() => {
       if (currentUser && currentUser.is_admin) {
-         fetch('/service_types').then((res) => {
+         fetch("/service_types").then((res) => {
             if (res.ok) {
                res.json().then((serviceType) => setServiceTypes(serviceType));
             } else {
-               console.log('No service types');
+               console.log("No service types");
             }
          });
       }
    }, [currentUser]);
 
    useEffect(() => {
-      fetch('/services').then((res) => {
+      fetch("/services").then((res) => {
          if (res.ok) {
             res.json().then((service) => setServices(service));
          } else {
-            console.log('No services');
+            console.log("No services");
          }
       });
    }, []);
 
    useEffect(() => {
-      localStorage.setItem('cart', JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(cart));
    }, [cart]);
 
    const history = useHistory();
@@ -108,7 +107,7 @@ function Main() {
       const id = +Id.target.parentElement.parentElement.id;
       try {
          const response = await fetch(`/${endpoint}/${id}`, {
-            method: 'DELETE',
+            method: "DELETE",
          });
          if (response.ok) {
             const returnedData = await response.json();
@@ -132,11 +131,11 @@ function Main() {
       const id = +Id.target.parentElement.parentElement.id;
       let newCartItem = {};
       switch (caller) {
-         case 'service':
+         case "service":
             newCartItem = services.find((item) => item.id === id);
             break;
 
-         case 'favorite':
+         case "favorite":
             const favoriteItem = currentUser.favorites.find(
                (favorite) => favorite.id === id
             );
@@ -163,8 +162,8 @@ function Main() {
 
       try {
          const configObj = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                wishlist_id: currentUser.wishlist.id,
                service_id: id,
@@ -195,7 +194,7 @@ function Main() {
       const id = +Id.target.parentElement.parentElement.id;
       try {
          const response = await fetch(`/favorites/${id}`, {
-            method: 'DELETE',
+            method: "DELETE",
          });
          if (response.ok) {
             response.json().then((deletedFave) => {
@@ -254,9 +253,9 @@ function Main() {
                      arr={durations}
                      addArr={addArr}
                      setArr={setDurations}
-                     initialData={{ time_interval: '' }}
+                     initialData={{ time_interval: "" }}
                      title="duration"
-                     functionTitle={'Add'}
+                     functionTitle={"Add"}
                      endpoint="durations"
                      open={true}
                      serviceType={serviceType}
@@ -273,9 +272,9 @@ function Main() {
                   <Box
                      mt={2}
                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                      }}
                   >
                      <Alert severity="error" variant="outlined">
@@ -293,7 +292,7 @@ function Main() {
                      arr={durations}
                      addArr={addArr}
                      setArr={setDurations}
-                     initialData={{ time_interval: '' }}
+                     initialData={{ time_interval: "" }}
                      endpoint="durations"
                      title="duration"
                      currentUser={currentUser}
@@ -305,7 +304,7 @@ function Main() {
                      setDuration={setDuration}
                      serviceTypeOptions={serviceTypeOptions}
                      durationOptions={durationOptions}
-                     functionTitle={'Add'}
+                     functionTitle={"Add"}
                      handleClickOpen={handleClickOpen}
                      handleClose={handleClose}
                   >
@@ -316,7 +315,7 @@ function Main() {
                         onClick={(Id) => {
                            handleDelete(
                               Id,
-                              'durations',
+                              "durations",
                               durations,
                               setDurations
                            );
@@ -329,9 +328,9 @@ function Main() {
                   <Box
                      mt={2}
                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                      }}
                   >
                      <Alert severity="error" variant="outlined">
@@ -349,9 +348,9 @@ function Main() {
                      arr={serviceTypes}
                      addArr={addArr}
                      setArr={setServiceTypes}
-                     initialData={{ service_type_name: '' }}
+                     initialData={{ service_type_name: "" }}
                      title="service type"
-                     functionTitle={'Add'}
+                     functionTitle={"Add"}
                      endpoint="service_types"
                      open={true}
                      serviceType={serviceType}
@@ -368,9 +367,9 @@ function Main() {
                   <Box
                      mt={2}
                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                      }}
                   >
                      <Alert severity="error" variant="outlined">
@@ -388,10 +387,10 @@ function Main() {
                      arr={serviceTypes}
                      addArr={addArr}
                      setArr={setServiceTypes}
-                     initialData={{ service_type_name: '' }}
+                     initialData={{ service_type_name: "" }}
                      endpoint="service_types"
                      title="service type"
-                     functionTitle={'Add'}
+                     functionTitle={"Add"}
                      currentUser={currentUser}
                      cart={cart}
                      open={open}
@@ -411,7 +410,7 @@ function Main() {
                         onClick={(Id) => {
                            handleDelete(
                               Id,
-                              'service_types',
+                              "service_types",
                               serviceTypes,
                               setServiceTypes
                            );
@@ -424,9 +423,9 @@ function Main() {
                   <Box
                      mt={2}
                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                      }}
                   >
                      <Alert severity="error" variant="outlined">
@@ -446,15 +445,15 @@ function Main() {
                      setArr={setServices}
                      // by default, make a new service be Salon type with 0 minutes for UI
                      initialData={{
-                        name: '',
-                        description: '',
-                        price: '',
-                        image_url: '',
+                        name: "",
+                        description: "",
+                        price: "",
+                        image_url: "",
                         service_type_id: `${serviceType}`,
                         duration_id: `${duration}`,
                      }}
                      title="service"
-                     functionTitle={'Add'}
+                     functionTitle={"Add"}
                      endpoint="services"
                      serviceType={serviceType}
                      setServiceType={setServiceType}
@@ -471,9 +470,9 @@ function Main() {
                   <Box
                      mt={2}
                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                      }}
                   >
                      <Alert severity="error" variant="outlined">
@@ -497,7 +496,7 @@ function Main() {
                         (service) => service.id === parseInt(match.params.id)
                      )}
                      title="service"
-                     functionTitle={'Edit'}
+                     functionTitle={"Edit"}
                      endpoint="services"
                      serviceType={serviceType}
                      setServiceType={setServiceType}
@@ -520,16 +519,16 @@ function Main() {
                   addArr={addArr}
                   setArr={setServices}
                   initialData={{
-                     name: '',
-                     description: '',
-                     price: '',
-                     image_url: '',
+                     name: "",
+                     description: "",
+                     price: "",
+                     image_url: "",
                      service_type_id: `${serviceType}`,
                      duration_id: `${duration}`,
                   }}
                   endpoint="services"
                   title="service"
-                  functionTitle={'Add'}
+                  functionTitle={"Add"}
                   currentUser={currentUser}
                   cart={cart}
                   open={open}
@@ -549,7 +548,7 @@ function Main() {
                            size="small"
                            startIcon={<EditOutlinedIcon />}
                            onClick={(Id) => {
-                              handleServiceEdit(Id, 'services');
+                              handleServiceEdit(Id, "services");
                            }}
                         >
                            Edit
@@ -561,7 +560,7 @@ function Main() {
                            onClick={(Id) => {
                               handleDelete(
                                  Id,
-                                 'services',
+                                 "services",
                                  services,
                                  setServices
                               );
@@ -578,7 +577,7 @@ function Main() {
                            size="small"
                            startIcon={<FavoriteBorderIcon />}
                            onClick={(Id) => {
-                              handleFave(Id, 'favorites');
+                              handleFave(Id, "favorites");
                            }}
                         >
                            Fave Me!
@@ -588,7 +587,7 @@ function Main() {
                            size="small"
                            startIcon={<AddShoppingCartOutlinedIcon />}
                            onClick={(Id) => {
-                              handleAddCartItem(Id, 'service');
+                              handleAddCartItem(Id, "service");
                            }}
                         >
                            Add to Cart
@@ -611,7 +610,7 @@ function Main() {
                      }}
                      endpoint="favorites"
                      title="favorite"
-                     functionTitle={'Add'}
+                     functionTitle={"Add"}
                      currentUser={currentUser}
                      cart={cart}
                      open={open}
@@ -631,7 +630,7 @@ function Main() {
                         onClick={(Id) => {
                            handleDeleteFave(
                               Id,
-                              'favorite',
+                              "favorite",
                               currentUser.favorites,
                               handleCurrentUser
                            );
@@ -644,7 +643,7 @@ function Main() {
                         size="small"
                         startIcon={<AddShoppingCartOutlinedIcon />}
                         onClick={(Id) => {
-                           handleAddCartItem(Id, 'favorite');
+                           handleAddCartItem(Id, "favorite");
                         }}
                      >
                         Add to Cart
@@ -654,9 +653,9 @@ function Main() {
                   <Box
                      mt={2}
                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                      }}
                   >
                      <Alert severity="error" variant="outlined">
@@ -682,7 +681,7 @@ function Main() {
                      initialData={{}} // to add new but n/a for cart
                      endpoint="" // to add new but n/a for cart
                      title="favorite"
-                     functionTitle={''} // to add new or edit but n/a for cart
+                     functionTitle={""} // to add new or edit but n/a for cart
                      currentUser={currentUser}
                      cart={cart}
                      open={open}
@@ -725,9 +724,9 @@ function Main() {
                   <Box
                      mt={2}
                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                      }}
                   >
                      <Alert severity="error" variant="outlined">

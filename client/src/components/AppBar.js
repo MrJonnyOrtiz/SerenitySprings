@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import logo from '../assets/serenitySpringsLogoNoName.png';
-import Link from '@mui/material/Link';
+import { useState } from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import logo from "../assets/serenitySpringsLogoNoName.png";
+import Link from "@mui/material/Link";
 
-const userPages = ['services', 'favorites', 'bookings', 'cart', 'about'];
-const adminPages = ['services', 'durations', 'service_types'];
-const settings = ['Logout'];
+const userPages = ["services", "favorites", "bookings", "cart", "about"];
+const adminPages = ["services", "durations", "service_types"];
+const settings = ["Logout"];
 
 const ResponsiveAppBar = ({
    currentUser,
@@ -43,8 +43,8 @@ const ResponsiveAppBar = ({
    };
 
    const logout = () => {
-      fetch('/logout', {
-         method: 'DELETE',
+      fetch("/logout", {
+         method: "DELETE",
       }).then(() => {
          handleCurrentUser(null);
          handleCart([]);
@@ -56,23 +56,23 @@ const ResponsiveAppBar = ({
          <Container
             maxWidth="xl"
             sx={{
-               backgroundColor: 'var(--color-brand--1)',
+               backgroundColor: "var(--color-brand--1)",
             }}
          >
             <Toolbar disableGutters>
                {/* regular logo and name */}
                <Box
                   sx={{
-                     display: { xs: 'none', md: 'flex' },
-                     color: 'inherit',
-                     textDecoration: 'none',
+                     display: { xs: "none", md: "flex" },
+                     color: "inherit",
+                     textDecoration: "none",
                   }}
                >
                   <Box>
                      <Box
                         sx={{
-                           display: 'inline-block',
-                           verticalAlign: 'middle',
+                           display: "inline-block",
+                           verticalAlign: "middle",
                         }}
                      >
                         <Link href="/">
@@ -84,8 +84,8 @@ const ResponsiveAppBar = ({
                      </Box>
                      <Box
                         sx={{
-                           display: 'inline-block',
-                           verticalAlign: 'middle',
+                           display: "inline-block",
+                           verticalAlign: "middle",
                            mr: 3,
                         }}
                      >
@@ -97,7 +97,7 @@ const ResponsiveAppBar = ({
                </Box>
 
                {/* xs nav */}
-               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                   <IconButton
                      size="large"
                      aria-label="account of current user"
@@ -112,18 +112,18 @@ const ResponsiveAppBar = ({
                      id="menu-appbar"
                      anchorEl={anchorElNav}
                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
+                        vertical: "bottom",
+                        horizontal: "left",
                      }}
                      keepMounted
                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
+                        vertical: "top",
+                        horizontal: "left",
                      }}
                      open={Boolean(anchorElNav)}
                      onClose={handleCloseNavMenu}
                      sx={{
-                        display: { xs: 'block', md: 'none' },
+                        display: { xs: "block", md: "none" },
                      }}
                   >
                      {currentUser.is_admin
@@ -134,10 +134,10 @@ const ResponsiveAppBar = ({
                                    color="inherit"
                                    underline="hover"
                                    sx={{
-                                      textDecoration: 'none',
+                                      textDecoration: "none",
                                    }}
                                 >
-                                   {page.replace('_', ' ')}
+                                   {page.replace("_", " ")}
                                 </Button>
                              </MenuItem>
                           ))
@@ -148,8 +148,8 @@ const ResponsiveAppBar = ({
                                    color="inherit"
                                    underline="hover"
                                    sx={{
-                                      textDecoration: 'none',
-                                      underline: 'hover',
+                                      textDecoration: "none",
+                                      underline: "hover",
                                    }}
                                 >
                                    {/* {page === 'favorites' &&
@@ -157,10 +157,10 @@ const ResponsiveAppBar = ({
                                          page +
                                             `(${currentUser.favorites.length})`) ||
                                          page)} */}
-                                   {(page === 'favorites' &&
+                                   {(page === "favorites" &&
                                       currentUser.favorites.length !== 0 &&
                                       `${page} (${currentUser.favorites.length})`) ||
-                                      (page === 'cart' &&
+                                      (page === "cart" &&
                                          cart.length !== 0 &&
                                          `${page} (${cart.length})`) ||
                                       page}
@@ -172,25 +172,25 @@ const ResponsiveAppBar = ({
                   {/* xs logo and name  */}
                   <Box
                      sx={{
-                        display: { xs: 'flex', md: 'none' },
+                        display: { xs: "flex", md: "none" },
                         flexGrow: 1,
-                        color: 'inherit',
-                        textDecoration: 'none',
+                        color: "inherit",
+                        textDecoration: "none",
                      }}
                   >
                      <Box
                         sx={{
-                           display: { xs: 'flex' },
+                           display: { xs: "flex" },
                            mt: 2,
-                           textAlign: 'center',
-                           alignItems: 'center',
-                           backgroundColor: 'var(--color-brand--1)',
+                           textAlign: "center",
+                           alignItems: "center",
+                           backgroundColor: "var(--color-brand--1)",
                         }}
                      >
                         <Box
                            sx={{
-                              display: 'inline-block',
-                              verticalAlign: 'middle',
+                              display: "inline-block",
+                              verticalAlign: "middle",
                            }}
                         >
                            <Link href="/">
@@ -202,8 +202,8 @@ const ResponsiveAppBar = ({
                         </Box>
                         <Box
                            sx={{
-                              display: 'inline-block',
-                              verticalAlign: 'middle',
+                              display: "inline-block",
+                              verticalAlign: "middle",
                            }}
                         >
                            <Typography component="h1" variant="h4">
@@ -215,7 +215,7 @@ const ResponsiveAppBar = ({
                </Box>
 
                {/* regular nav */}
-               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                   {currentUser.is_admin
                      ? adminPages.map((page) => (
                           <Link
@@ -224,9 +224,9 @@ const ResponsiveAppBar = ({
                              underline="hover"
                              sx={{
                                 mr: 3,
-                                color: 'white',
-                                display: 'block',
-                                textDecoration: 'none',
+                                color: "white",
+                                display: "block",
+                                textDecoration: "none",
                              }}
                           >
                              {page}
@@ -239,15 +239,15 @@ const ResponsiveAppBar = ({
                              underline="hover"
                              sx={{
                                 mr: 3,
-                                color: 'white',
-                                display: 'block',
-                                textDecoration: 'none',
+                                color: "white",
+                                display: "block",
+                                textDecoration: "none",
                              }}
                           >
-                             {(page === 'favorites' &&
+                             {(page === "favorites" &&
                                 currentUser.favorites.length !== 0 &&
                                 `${page} (${currentUser.favorites.length})`) ||
-                                (page === 'cart' &&
+                                (page === "cart" &&
                                    cart.length !== 0 &&
                                    `${page} (${cart.length})`) ||
                                 page}
@@ -266,17 +266,17 @@ const ResponsiveAppBar = ({
                      </IconButton>
                   </Tooltip>
                   <Menu
-                     sx={{ mt: '45px' }}
+                     sx={{ mt: "45px" }}
                      id="menu-appbar"
                      anchorEl={anchorElUser}
                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
+                        vertical: "top",
+                        horizontal: "right",
                      }}
                      keepMounted
                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
+                        vertical: "top",
+                        horizontal: "right",
                      }}
                      open={Boolean(anchorElUser)}
                      onClose={handleCloseUserMenu}
@@ -289,7 +289,7 @@ const ResponsiveAppBar = ({
                               // TO-DO: make onClick dynamic
                               onClick={logout}
                               color="inherit"
-                              sx={{ textDecoration: 'none' }}
+                              sx={{ textDecoration: "none" }}
                            >
                               {setting}
                            </Button>
